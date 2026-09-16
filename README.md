@@ -79,6 +79,21 @@ El pronóstico se obtiene en el servidor (frontmatter de Astro) y se vuelve a pe
 cargar la página, de modo que los valores mostrados correspondan al momento de la visita. Si el servicio no
 responde, la sección se construye con un mensaje de respaldo y el resto de la página no se ve afectado.
 
+Los datos no se muestran como texto meteorológico: pasan por un motor de reglas (`buildAdvice`) que traduce
+temperatura, sensación térmica, humedad, viento, radiación solar, probabilidad de lluvia y tipo de tiempo en
+cuatro bloques:
+
+| Bloque | Contenido |
+| --- | --- |
+| Aviso importante | Solo aparece si hay tormenta, lluvia fuerte, viento muy fuerte, calor extremo, niebla o frío intenso |
+| Qué ponerse | Ropa según temperatura, amplitud térmica, lluvia y viento |
+| Cómo organizar la visita | Horario recomendado, efecto de la sensación térmica y de la isla de calor urbana |
+| Qué llevar | Paraguas o piloto, protector solar, agua, abrigo: solo lo que corresponde |
+
+Los bloques se renderizan de forma dinámica: si no hay lluvia no se sugiere paraguas, y si no aplica ninguna
+regla se muestra una frase neutra. El perfil del destino es **urbano y cultural**, por lo que las
+recomendaciones priorizan el calor, la humedad y la sombra antes que riesgos de montaña o costa.
+
 ## Comandos
 
 ```bash
