@@ -932,6 +932,11 @@ html.no-anim [data-reveal] {
 
 /* ---------- Utilidades ---------- */
 
+/* Necesario: las reglas con display propio anulan el [hidden] nativo. */
+[hidden] {
+  display: none !important;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -1018,18 +1023,88 @@ html.no-anim [data-reveal] {
 .wx__v {
   font-weight: 700;
 }
-.wx__hint {
-  margin-top: 18px;
-  padding: 12px 14px;
-  background: var(--brand-soft);
-  border-radius: var(--radius-sm);
-  font-size: 0.9rem;
-  color: var(--brand-deep);
+.wx__headline {
+  margin-top: 3px;
+  font-size: 0.78rem;
+  color: var(--ink-faint);
 }
 .wx__updated {
-  margin-top: 10px;
+  margin-top: 12px;
   font-size: 0.75rem;
   color: var(--ink-faint);
+}
+
+/* Bloques de recomendaciones: solo se renderizan los que aplican */
+.wx__advice {
+  margin-top: 24px;
+  display: grid;
+  gap: 14px;
+}
+.wx__risk {
+  background: #fff2f1;
+  border: 1px solid #f3c9c4;
+  border-left: 4px solid #c0392b;
+  border-radius: var(--radius-sm);
+  padding: 16px 18px;
+}
+.wx__risk .wx__block-title {
+  color: #8e2018;
+}
+.wx__risk ul {
+  margin-top: 9px;
+  display: grid;
+  gap: 7px;
+}
+.wx__risk li {
+  font-size: 0.9rem;
+  color: #7d2b22;
+  line-height: 1.5;
+}
+.wx__risk--ok {
+  background: #f1f8f2;
+  border-color: #c9e2cd;
+  border-left-color: #2e7d46;
+}
+.wx__risk--ok .wx__block-title {
+  color: #256b39;
+  margin-bottom: 0;
+}
+
+.wx__block {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 16px 18px;
+  box-shadow: var(--shadow);
+}
+.wx__block-title {
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brand-deep);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.wx__block ul {
+  margin-top: 10px;
+  display: grid;
+  gap: 7px;
+}
+.wx__block li {
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+  line-height: 1.5;
+  position: relative;
+  padding-left: 18px;
+}
+.wx__block li::before {
+  content: "·";
+  position: absolute;
+  left: 4px;
+  color: var(--brand);
+  font-weight: 800;
 }
 
 .wx__days {
