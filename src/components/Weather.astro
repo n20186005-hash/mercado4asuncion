@@ -2,8 +2,10 @@
 import {
   getWeather,
   describeCode,
-  dailyAdvice,
-  umbrellaHint,
+  buildAdvice,
+  renderAdviceHtml,
+  dayTip,
+  headline,
   formatDayLabel,
   formatTime,
 } from '../lib/weather';
@@ -13,7 +15,9 @@ const weather = await getWeather(attraction.latitude, attraction.longitude);
 const current = weather?.current ?? null;
 const days = weather?.days ?? [];
 const now = describeCode(current?.weatherCode ?? days[0]?.weatherCode);
-const hint = umbrellaHint(current, days);
+const advice = buildAdvice(current, days);
+const adviceHtml = renderAdviceHtml(advice);
+const summary = headline(current, days);
 const hasData = Boolean(current || days.length > 0);
 
 const round = (n: number | null | undefined) =>
@@ -37,9 +41,9 @@ const kmh = (n: number | null | undefined) =>
     <p class="eyebrow">Clima</p>
     <h2 class="sec-title">Clima y pronóstico en el {attraction.shortName}</h2>
     <p class="lead">
-      Condiciones actuales y pronóstico de los próximos días en {attraction.city}. El {attraction.shortName} se
-      recorre a pie y con poca sombra: revisar la temperatura y la probabilidad de lluvia antes de salir cambia
-      bastante la experiencia.
+      Condiciones de hoy y pronóstico de los próximos días en {attraction.city}, traducidas a
+      recomendaciones concretas: qué ponerte, cómo organizar la visita y qué llevar. El {attraction.shortName}
+      se recorre a pie, con tramos techados pero poca sombra.
     </p>
 
     <div class="wx">
@@ -51,6 +55,7 @@ const kmh = (n: number | null | undefined) =>
               <span data-wx="temp">{round(current?.temperature ?? days[0]?.tMax)}</span>°
             </div>
             <div class="wx__desc" data-wx="desc">{now.label}</div>
+            <div class="wx__headline" data-wx="headline">{summary}</div>
           </div>
         </div>
 
@@ -73,10 +78,6 @@ const kmh = (n: number | null | undefined) =>
           </li>
         </ul>
 
-        <p class="wx__hint">
-          <strong>¿Llevo paraguas? </strong>
-          <span data-wx="hint">{hint}</span>
-        </p>
         <p class="wx__updated">
           Actualizado: <span data-wx="updated">{formatTime(current?.time) || 'hace instantes'}</span>
         </p>
@@ -99,7 +100,7 @@ const kmh = (n: number | null | undefined) =>
                     : `💧 ${Math.round(d.precipitationProbability)}%`}
                 </div>
                 <div class="wx__day-desc">{c.label}</div>
-                <div class="wx__day-tip">{dailyAdvice(d)}</div>
+                <div class="wx__day-tip">{dayTip(d)}</div>
               </article>
             );
           })
@@ -107,14 +108,21 @@ const kmh = (n: number | null | undefined) =>
       </div>
     </div>
 
+    <div
+      class="wx__advice"
+      data-wx="advice"
+      hidden={!hasData}
+      set:html={adviceHtml}
+    />
+
     <p class="wx__note" data-wx="nodata" hidden={hasData}>
       El pronóstico detallado no está disponible en este momento. Volvé a cargar la página en unos minutos
-      para ver las condiciones actuales y la previsión de los próximos días en {attraction.city}.
+      para ver las condiciones actuales y las recomendaciones para los próximos días en {attraction.city}.
     </p>
 
     <p class="wx__note">
-      Recomendación general: en verano el pico de calor se da entre las 12:00 y las 15:00, y las lluvias
-      intensas son más frecuentes por la tarde. Si querés recorrer con comodidad, apuntá a la mañana.
+      Regla general: en verano el pico de calor se da entre las 12:00 y las 15:00, y las lluvias intensas son
+      más frecuentes por la tarde. Si querés recorrer con comodidad, apuntá a la mañana.
     </p>
   </div>
 </section>
@@ -123,8 +131,10 @@ const kmh = (n: number | null | undefined) =>
   import {
     getWeather,
     describeCode,
-    dailyAdvice,
-    umbrellaHint,
+    buildAdvice,
+    renderAdviceHtml,
+    dayTip,
+    headline,
     formatDayLabel,
     formatTime,
   } from '../lib/weather';
@@ -160,12 +170,18 @@ const kmh = (n: number | null | undefined) =>
       set('icon', code.icon);
       set('temp', round(c?.temperature ?? d0?.tMax));
       set('desc', code.label);
+      set('headline', headline(c, w.days));
       set('feels', `${round(c?.apparentTemperature)}°`);
       set('hum', pct(c?.humidity));
       set('wind', kmh(c?.windSpeed));
       set('precip', mm(c?.precipitation));
-      set('hint', umbrellaHint(c, w.days));
       set('updated', formatTime(c?.time) || 'hace instantes');
+
+      const adviceBox = root.querySelector('[data-wx="advice"]');
+      if (adviceBox) {
+        adviceBox.innerHTML = renderAdviceHtml(buildAdvice(c, w.days));
+        adviceBox.removeAttribute('hidden');
+      }
 
       const container = root.querySelector('[data-wx="days"]');
       if (container && w.days.length) {
@@ -182,7 +198,7 @@ const kmh = (n: number | null | undefined) =>
               <div class="wx__day-temp"><strong>${round(d.tMax)}°</strong> <span>${round(d.tMin)}°</span></div>
               ${pop}
               <div class="wx__day-desc">${cd.label}</div>
-              <div class="wx__day-tip">${dailyAdvice(d)}</div>
+              <div class="wx__day-tip">${dayTip(d)}</div>
             </article>`;
           })
           .join('');
