@@ -196,6 +196,34 @@ export const faqs = [
     q: '¿De dónde salen la calificación y las opiniones que se muestran en esta página?',
     a: 'La calificación y la cantidad de opiniones están sincronizadas desde las opiniones de usuarios de Google Maps, con fecha de sincronización septiembre de 2026. Los derechos sobre esos contenidos pertenecen a sus autores originales y a Google Maps.',
   },
+  {
+    q: '¿Hay baños públicos en el Mercado 4?',
+    a: 'Sí. Hay sanitarios de pago dentro y en el perímetro del mercado, concentrados en los accesos y pasillos principales. Son instalaciones básicas: conviene llevar papel higiénico, toallitas y monedas en efectivo.',
+  },
+  {
+    q: '¿Dónde se puede estacionar cerca del Mercado 4?',
+    a: 'En el entorno funcionan playas de estacionamiento privadas y espacios en la vía pública administrados por cuidadores. No hay un estacionamiento oficial único ni gratuito garantizado; lo más práctico es llegar antes de las 09:00 y no dejar objetos a la vista dentro del vehículo.',
+  },
+  {
+    q: '¿Cómo llego al Mercado 4 desde el aeropuerto?',
+    a: 'El Aeropuerto Internacional Silvio Pettirossi queda a unos 15 km. En taxi o transporte por aplicación el trayecto directo toma entre 30 y 45 minutos según el tráfico; el transporte público es más barato pero exige combinaciones y no es recomendable con equipaje.',
+  },
+  {
+    q: '¿Es accesible el Mercado 4 para personas con movilidad reducida?',
+    a: 'Solo parcialmente. El piso es irregular, hay desniveles, pasillos muy estrechos y mucha circulación de gente y mercadería. La visita realista es recorrer el tramo del acceso principal sobre la Av. Silvio Pettirossi, en horario de menor afluencia y acompañado.',
+  },
+  {
+    q: '¿Conviene ir al Mercado 4 con niños?',
+    a: 'Sí, pero en la franja de la mañana y con recorrido corto. Los pasillos son estrechos para cochecitos, así que es mejor llevar a los niños en mochila portabebés o de la mano, con agua, gorra y un punto de encuentro acordado.',
+  },
+  {
+    q: '¿Se puede comer en el Mercado 4 sin riesgo?',
+    a: 'Hay cocinerías con mucha rotación donde se come bien y barato. Las precauciones habituales aplican: elegir puestos con cocción a la vista y clientes frecuentes, evitar preparaciones que lleven horas expuestas al calor y, si tenés restricciones alimentarias, consultar los ingredientes.',
+  },
+  {
+    q: '¿Qué clima me voy a encontrar y hace falta paraguas?',
+    a: 'Asunción tiene clima subtropical húmedo: veranos muy calurosos con tormentas vespertinas e inviernos templados y secos. Entre octubre y marzo llueve más, casi siempre por la tarde. El módulo de clima de esta página muestra la probabilidad de lluvia día por día para decidir si llevar paraguas.',
+  },
 ];
 
 // Aspectos destacados y recomendaciones (resumen de opiniones de visitantes)

@@ -1,22 +1,50 @@
 # Mercado 4 Asunción
 
 Sitio de una sola página (Astro + TypeScript) dedicado al **Mercado Municipal N° 4** —conocido como
-**Mercado 4**— en Asunción, Distrito Capital, Paraguay.
+**Mercado 4**— en Asunción, Distrito Capital, Paraguay. Guía de divulgación sin fines comerciales.
 
 ## Estructura
 
 ```
 src/
-  config/site.ts        # Todos los datos de la entidad (un único lugar para editar)
-  styles/global.css     # Tokens de diseño y estilos de componentes
-  pages/index.astro     # Página completa (TDK, JSON-LD, secciones, PWA)
+  config/site.ts          # Datos de la entidad (un único lugar para editar)
+  config/content.ts       # Contenido editorial: servicios, transporte, clima, recorridos, divulgación
+  lib/weather.ts          # Cliente del pronóstico + mapeo de códigos meteorológicos
+  styles/global.css       # Tokens de diseño y estilos de componentes
+  pages/index.astro       # Composición de la página + <head> (TDK, OG, JSON-LD, PWA)
+  components/             # Secciones: Weather, Transport, Services, Plan, History, Science
 public/
   favicon.svg
   manifest.webmanifest
-  sw.js                 # Service worker (PWA)
+  sw.js                   # Service worker (PWA)
   robots.txt
-  images/               # Fotos locales con licencia (ver PHOTO-LINKS.md)
+  images/                 # Fotos locales con licencia (ver PHOTO-LINKS.md)
+wrangler.jsonc            # Despliegue manual en Cloudflare Workers (assets estáticos)
 ```
+
+## Secciones de la página
+
+| Ancla | Contenido |
+| --- | --- |
+| `#inicio` | H1 + calificación + datos clave |
+| `#sobre` | Declaración de equivalencia de nombres + ruta de pertenencia |
+| `#mercado` | Qué se encuentra en el mercado |
+| `#galeria` | Galería con alt semántico |
+| `#clima` | Condiciones actuales + pronóstico de 7 días |
+| `#opiniones` | Calificación agregada con nota de procedencia |
+| `#ubicacion` | Dirección, coordenadas, Plus Code y mapa embebido |
+| `#transporte` | Desde el aeropuerto, colectivo, taxi, auto propio y a pie |
+| `#servicios` | Sanitarios, estacionamiento, comida, alojamiento, abasto, combustible, salud, cajeros |
+| `#alrededores` | Clúster semántico de alrededores |
+| `#temporadas` | Estrategia de visita por temporada (tabla) |
+| `#recorridos` | Rutas por perfil: familias / fotografía / bajo esfuerzo |
+| `#rutas` | Itinerario de media jornada y jornada completa |
+| `#historia` | Línea de tiempo |
+| `#relatos` | Historias y contexto: Mercado Guasú, 1942, yuyos, «7 cajas», dicho popular |
+| `#divulgacion` | Contexto urbano, alimentario, etnobotánico y lingüístico |
+| `#responsabilidad` | Qué hacer y qué evitar |
+| `#faq` | 17 preguntas frecuentes con `FAQPage` Schema |
+| `#fuentes` | Fuentes y referencias |
 
 ## Variables de la entidad
 
@@ -30,6 +58,7 @@ public/
 | `POSTAL_CODE` | 001223 |
 | `LATITUDE` / `LONGITUDE` | -25.299795 / -57.622196 |
 | `MAPS_SHARE_URL` | https://maps.app.goo.gl/eFSL3TJK58oBRWbP6 |
+| `MAPS_EMBED_SRC` | `google.com/maps?q=…&output=embed&hl=es&region=PY` |
 | `NEARBY_LANDMARK_1` | Estadio General Pablo Rojas (La Nueva Olla) |
 | `NEARBY_LANDMARK_2` | Museo Nacional de Bellas Artes de Asunción |
 | `GOVT_TOURISM_URL` | https://www.senatur.gov.py/ |
@@ -44,6 +73,12 @@ están **sincronizadas desde las opiniones de usuarios de Google Maps**, con fec
 - Todos los bloques de opiniones llevan la nota de procedencia y el enlace a Google Maps.
 - Los derechos sobre los contenidos pertenecen a sus autores originales y a Google Maps.
 
+## Módulo de clima
+
+El pronóstico se obtiene en el servidor (frontmatter de Astro) y se vuelve a pedir desde el navegador al
+cargar la página, de modo que los valores mostrados correspondan al momento de la visita. Si el servicio no
+responde, la sección se construye con un mensaje de respaldo y el resto de la página no se ve afectado.
+
 ## Comandos
 
 ```bash
@@ -52,8 +87,18 @@ pnpm dev
 pnpm build
 ```
 
-La salida es estática en `dist/` y se puede publicar en Cloudflare Pages / Workers Assets sin adaptador.
+## Despliegue en Cloudflare Workers
+
+La salida es estática en `dist/`. Para publicar a mano:
+
+```bash
+pnpm build
+npx wrangler deploy
+```
+
+`wrangler.jsonc` ya apunta a `./dist` como directorio de assets; no hace falta ningún adaptador.
 
 ## Aviso
 
 Sitio informativo independiente. No es un sitio oficial del Mercado 4 ni de la Municipalidad de Asunción.
+No recomienda comercios concretos, no cobra comisiones ni gestiona reservas.

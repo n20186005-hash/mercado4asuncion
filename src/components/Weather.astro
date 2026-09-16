@@ -16,7 +16,14 @@ const now = describeCode(current?.weatherCode ?? days[0]?.weatherCode);
 const hint = umbrellaHint(current, days);
 const hasData = Boolean(current || days.length > 0);
 
-const round = (n: number | null) => (n === null ? '—' : String(Math.round(n)));
+const round = (n: number | null | undefined) =>
+  n === null || n === undefined ? '—' : String(Math.round(n));
+const mm = (n: number | null | undefined) =>
+  n === null || n === undefined ? '—' : `${n.toFixed(1)} mm`;
+const pct = (n: number | null | undefined) =>
+  n === null || n === undefined ? '—' : `${Math.round(n)}%`;
+const kmh = (n: number | null | undefined) =>
+  n === null || n === undefined ? '—' : `${Math.round(n)} km/h`;
 ---
 
 <section
@@ -31,93 +38,79 @@ const round = (n: number | null) => (n === null ? '—' : String(Math.round(n)))
     <h2 class="sec-title">Clima y pronóstico en el {attraction.shortName}</h2>
     <p class="lead">
       Condiciones actuales y pronóstico de los próximos días en {attraction.city}. El {attraction.shortName} se
-      recorre a pie y con poca sombra: revisar la temperatura y la chance de lluvia antes de salir cambia
+      recorre a pie y con poca sombra: revisar la temperatura y la probabilidad de lluvia antes de salir cambia
       bastante la experiencia.
     </p>
 
-    {
-      hasData ? (
-        <div class="wx">
-          <div class="wx__now">
-            <div class="wx__now-top">
-              <div class="wx__icon" data-wx="icon" aria-hidden="true">{now.icon}</div>
-              <div>
-                <div class="wx__temp">
-                  <span data-wx="temp">{round(current?.temperature ?? days[0]?.tMax ?? null)}</span>°
-                </div>
-                <div class="wx__desc" data-wx="desc">{now.label}</div>
-              </div>
+    <div class="wx">
+      <div class="wx__now">
+        <div class="wx__now-top">
+          <div class="wx__icon" data-wx="icon" aria-hidden="true">{now.icon}</div>
+          <div>
+            <div class="wx__temp">
+              <span data-wx="temp">{round(current?.temperature ?? days[0]?.tMax)}</span>°
             </div>
-
-            <ul class="wx__stats">
-              <li>
-                <span class="wx__k">Sensación</span>
-                <span class="wx__v" data-wx="feels">{round(current?.apparentTemperature ?? null)}°</span>
-              </li>
-              <li>
-                <span class="wx__k">Humedad</span>
-                <span class="wx__v" data-wx="hum">
-                  {current?.humidity === null || current?.humidity === undefined
-                    ? '—'
-                    : `${Math.round(current.humidity)}%`}
-                </span>
-              </li>
-              <li>
-                <span class="wx__k">Viento</span>
-                <span class="wx__v" data-wx="wind">
-                  {current?.windSpeed === null || current?.windSpeed === undefined
-                    ? '—'
-                    : `${Math.round(current.windSpeed)} km/h`}
-                </span>
-              </li>
-              <li>
-                <span class="wx__k">Lluvia 1 h</span>
-                <span class="wx__v" data-wx="precip">
-                  {current?.precipitation === null || current?.precipitation === undefined
-                    ? '—'
-                    : `${current.precipitation.toFixed(1)} mm`}
-                </span>
-              </li>
-            </ul>
-
-            <p class="wx__hint">
-              <strong>¿Llevo paraguas? </strong>
-              <span data-wx="hint">{hint}</span>
-            </p>
-            <p class="wx__updated">
-              Actualizado: <span data-wx="updated">{formatTime(current?.time) || 'hace instantes'}</span>
-            </p>
-          </div>
-
-          <div class="wx__days" data-wx="days">
-            {days.map((d, i) => {
-              const c = describeCode(d.weatherCode);
-              return (
-                <article class="wx__day">
-                  <div class="wx__day-name">{i === 0 ? 'Hoy' : formatDayLabel(d.date)}</div>
-                  <div class="wx__day-icon" aria-hidden="true">{c.icon}</div>
-                  <div class="wx__day-temp">
-                    <strong>{round(d.tMax)}°</strong> <span>{round(d.tMin)}°</span>
-                  </div>
-                  <div class="wx__day-pop">
-                    {d.precipitationProbability === null || d.precipitationProbability === undefined
-                      ? ''
-                      : `💧 ${Math.round(d.precipitationProbability)}%`}
-                  </div>
-                  <div class="wx__day-desc">{c.label}</div>
-                  <div class="wx__day-tip">{dailyAdvice(d)}</div>
-                </article>
-              );
-            })}
+            <div class="wx__desc" data-wx="desc">{now.label}</div>
           </div>
         </div>
-      ) : (
-        <p class="prose" data-wx="fallback">
-          El pronóstico no está disponible en este momento. Volvé a cargar la página en unos minutos para ver
-          las condiciones actuales y la previsión de los próximos días en {attraction.city}.
+
+        <ul class="wx__stats">
+          <li>
+            <span class="wx__k">Sensación</span>
+            <span class="wx__v" data-wx="feels">{round(current?.apparentTemperature)}°</span>
+          </li>
+          <li>
+            <span class="wx__k">Humedad</span>
+            <span class="wx__v" data-wx="hum">{pct(current?.humidity)}</span>
+          </li>
+          <li>
+            <span class="wx__k">Viento</span>
+            <span class="wx__v" data-wx="wind">{kmh(current?.windSpeed)}</span>
+          </li>
+          <li>
+            <span class="wx__k">Lluvia 1 h</span>
+            <span class="wx__v" data-wx="precip">{mm(current?.precipitation)}</span>
+          </li>
+        </ul>
+
+        <p class="wx__hint">
+          <strong>¿Llevo paraguas? </strong>
+          <span data-wx="hint">{hint}</span>
         </p>
-      )
-    }
+        <p class="wx__updated">
+          Actualizado: <span data-wx="updated">{formatTime(current?.time) || 'hace instantes'}</span>
+        </p>
+      </div>
+
+      <div class="wx__days" data-wx="days">
+        {
+          days.map((d, i) => {
+            const c = describeCode(d.weatherCode);
+            return (
+              <article class="wx__day">
+                <div class="wx__day-name">{i === 0 ? 'Hoy' : formatDayLabel(d.date)}</div>
+                <div class="wx__day-icon" aria-hidden="true">{c.icon}</div>
+                <div class="wx__day-temp">
+                  <strong>{round(d.tMax)}°</strong> <span>{round(d.tMin)}°</span>
+                </div>
+                <div class="wx__day-pop">
+                  {d.precipitationProbability === null || d.precipitationProbability === undefined
+                    ? ''
+                    : `💧 ${Math.round(d.precipitationProbability)}%`}
+                </div>
+                <div class="wx__day-desc">{c.label}</div>
+                <div class="wx__day-tip">{dailyAdvice(d)}</div>
+              </article>
+            );
+          })
+        }
+      </div>
+    </div>
+
+    <p class="wx__note" data-wx="nodata" hidden={hasData}>
+      El pronóstico detallado no está disponible en este momento. Volvé a cargar la página en unos minutos
+      para ver las condiciones actuales y la previsión de los próximos días en {attraction.city}.
+    </p>
 
     <p class="wx__note">
       Recomendación general: en verano el pico de calor se da entre las 12:00 y las 15:00, y las lluvias
@@ -137,19 +130,29 @@ const round = (n: number | null) => (n === null ? '—' : String(Math.round(n)))
   } from '../lib/weather';
 
   const root = document.getElementById('clima');
+
   if (root) {
     const lat = Number(root.dataset.lat);
     const lng = Number(root.dataset.lng);
+
     const set = (key: string, value: string) => {
       root.querySelectorAll(`[data-wx="${key}"]`).forEach((el) => {
         el.textContent = value;
       });
     };
+
     const round = (n: number | null | undefined) =>
       n === null || n === undefined ? '—' : String(Math.round(n));
+    const pct = (n: number | null | undefined) =>
+      n === null || n === undefined ? '—' : `${Math.round(n)}%`;
+    const kmh = (n: number | null | undefined) =>
+      n === null || n === undefined ? '—' : `${Math.round(n)} km/h`;
+    const mm = (n: number | null | undefined) =>
+      n === null || n === undefined ? '—' : `${n.toFixed(1)} mm`;
 
     getWeather(lat, lng).then((w) => {
       if (!w || (!w.current && w.days.length === 0)) return;
+
       const c = w.current;
       const d0 = w.days[0];
       const code = describeCode(c?.weatherCode ?? d0?.weatherCode);
@@ -158,14 +161,9 @@ const round = (n: number | null) => (n === null ? '—' : String(Math.round(n)))
       set('temp', round(c?.temperature ?? d0?.tMax));
       set('desc', code.label);
       set('feels', `${round(c?.apparentTemperature)}°`);
-      set('hum', c?.humidity === null || c?.humidity === undefined ? '—' : `${Math.round(c.humidity)}%`);
-      set('wind', c?.windSpeed === null || c?.windSpeed === undefined ? '—' : `${Math.round(c.windSpeed)} km/h`);
-      set(
-        'precip',
-        c?.precipitation === null || c?.precipitation === undefined
-          ? '—'
-          : `${c.precipitation.toFixed(1)} mm`
-      );
+      set('hum', pct(c?.humidity));
+      set('wind', kmh(c?.windSpeed));
+      set('precip', mm(c?.precipitation));
       set('hint', umbrellaHint(c, w.days));
       set('updated', formatTime(c?.time) || 'hace instantes');
 
@@ -189,6 +187,9 @@ const round = (n: number | null) => (n === null ? '—' : String(Math.round(n)))
           })
           .join('');
       }
+
+      const nodata = root.querySelector('[data-wx="nodata"]');
+      if (nodata) nodata.setAttribute('hidden', '');
     });
   }
 </script>
