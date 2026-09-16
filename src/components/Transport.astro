@@ -1,0 +1,60 @@
+---
+import { transportModes } from '../config/content';
+import { attraction } from '../config/site';
+---
+
+<section class="section" id="transporte" data-reveal>
+  <div class="wrap">
+    <p class="eyebrow">Cómo llegar</p>
+    <h2 class="sec-title">Guía de transporte para llegar al {attraction.shortName}</h2>
+    <p class="lead">
+      El {attraction.fullName} está en el barrio Pettirossi, sobre la Av. Silvio Pettirossi, uno de los
+      corredores mejor conectados de {attraction.city}. Estas son las alternativas según desde dónde salgas.
+    </p>
+
+    <div class="transport">
+      {
+        transportModes.map((m) => (
+          <article class="transport__item">
+            <div class="transport__head">
+              <span class="transport__icon" aria-hidden="true">{m.icon}</span>
+              <h3>{m.mode}</h3>
+            </div>
+            <p class="transport__summary">{m.summary}</p>
+            <ul class="transport__steps">
+              {m.steps.map((s) => (
+                <li>{s}</li>
+              ))}
+            </ul>
+            <div class="transport__meta">
+              {m.meta.map((x) => (
+                <span>{x}</span>
+              ))}
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="transport__advice">
+      <h3>Consejos generales para el traslado</h3>
+      <ul>
+        <li>
+          Indicá siempre el destino como <strong>“Mercado 4, Av. Silvio Pettirossi y Mayor Fleitas”</strong>:
+          el nombre oficial ({attraction.fullName}) es menos usado en la calle.
+        </li>
+        <li>
+          Evitá las franjas 07:00–09:00 y 17:00–19:00: el corredor de Pettirossi se congestiona y el viaje
+          puede duplicarse.
+        </li>
+        <li>
+          Para la vuelta, caminá hasta la avenida antes de pedir un vehículo: dentro de los pasillos la
+          señal se pierde y el punto de encuentro es confuso.
+        </li>
+        <li>
+          Si viajás con equipaje grande, priorizá taxi o transporte por aplicación antes que el colectivo.
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,64 @@
+---
+import { scienceFacts, responsibility } from '../config/content';
+import { attraction } from '../config/site';
+---
+
+<section class="section" id="divulgacion" data-reveal>
+  <div class="wrap">
+    <p class="eyebrow">Divulgación</p>
+    <h2 class="sec-title">Para entender el {attraction.shortName}: divulgación y contexto</h2>
+    <p class="lead">
+      Visitar el {attraction.fullName} es también una clase abierta sobre cómo funciona una ciudad: de dónde
+      viene la comida, qué papel cumple el comercio popular y qué saberes se transmiten en sus pasillos.
+    </p>
+
+    <div class="grid grid--3">
+      {
+        scienceFacts.map((f) => (
+          <article class="fact">
+            <div class="fact__icon" aria-hidden="true">{f.icon}</div>
+            <h3>{f.title}</h3>
+            <p>{f.text}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<section class="section section--dark" id="responsabilidad" data-reveal>
+  <div class="wrap">
+    <p class="eyebrow">Visita responsable</p>
+    <h2 class="sec-title">Responsabilidad del visitante</h2>
+    <p class="lead">
+      El {attraction.shortName} no es una atracción turística diseñada: es un lugar de trabajo. Estas
+      pautas buscan que la visita sea cómoda para quien visita y respetuosa con quienes trabajan allí.
+    </p>
+
+    <div class="grid grid--2">
+      <div class="panel">
+        <h3>Hacé</h3>
+        <ul>
+          {responsibility.do.map((d) => <li><span aria-hidden="true">✓</span><span>{d}</span></li>)}
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>Evitá</h3>
+        <ul>
+          {responsibility.dont.map((d) => <li><span aria-hidden="true">✕</span><span>{d}</span></li>)}
+        </ul>
+      </div>
+    </div>
+
+    <div class="resp-note">
+      <p>{responsibility.note}</p>
+      <p>
+        Para información oficial y novedades sobre turismo en {attraction.country} / {attraction.region},
+        consultá el
+        <a href={attraction.govTourismUrl} target="_blank" rel="noopener noreferrer">
+          portal oficial de turismo
+        </a>.
+      </p>
+    </div>
+  </div>
+</section>

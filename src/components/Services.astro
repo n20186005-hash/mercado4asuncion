@@ -1,0 +1,39 @@
+---
+import { services } from '../config/content';
+import { attraction } from '../config/site';
+---
+
+<section class="section" id="servicios" data-reveal>
+  <div class="wrap">
+    <p class="eyebrow">Servicios al visitante</p>
+    <h2 class="sec-title">Servicios y equipamiento en los alrededores del {attraction.shortName}</h2>
+    <p class="lead">
+      Panorama general de los servicios disponibles dentro del mercado y en su entorno inmediato, en
+      {attraction.city}. Se describen <strong>tipos de servicios</strong> y no comercios concretos: no
+      recomendamos ni promocionamos ningún establecimiento en particular.
+    </p>
+
+    <div class="grid grid--3">
+      {
+        services.map((s) => (
+          <article class="svc">
+            <div class="svc__icon" aria-hidden="true">{s.icon}</div>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+            <ul class="svc__tips">
+              {s.tips.map((t) => (
+                <li>{t}</li>
+              ))}
+            </ul>
+          </article>
+        ))
+      }
+    </div>
+
+    <p class="prose" style="margin-top:26px">
+      La señalización dentro del mercado es escasa y la mayoría de los servicios funciona en efectivo. Si
+      necesitás algo específico, lo más práctico es preguntar en el acceso principal sobre la Av. Silvio
+      Pettirossi: allí se concentran los puestos de información informal y los cuidadores de vehículos.
+    </p>
+  </div>
+</section>

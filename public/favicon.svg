@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Mercado 4 Asunción">
+  <rect width="64" height="64" rx="14" fill="#16241d"/>
+  <rect x="8" y="14" width="48" height="8" rx="2" fill="#b4471f"/>
+  <g fill="#e0a33f">
+    <rect x="8" y="22" width="6" height="5"/>
+    <rect x="20" y="22" width="6" height="5"/>
+    <rect x="32" y="22" width="6" height="5"/>
+    <rect x="44" y="22" width="6" height="5"/>
+  </g>
+  <g fill="#fdf7ed">
+    <rect x="14" y="22" width="6" height="5"/>
+    <rect x="26" y="22" width="6" height="5"/>
+    <rect x="38" y="22" width="6" height="5"/>
+    <rect x="50" y="22" width="6" height="5"/>
+  </g>
+  <rect x="10" y="31" width="44" height="3" rx="1.5" fill="#f3e7d5"/>
+  <rect x="14" y="38" width="36" height="4" rx="2" fill="#b4471f"/>
+  <text x="32" y="56" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="15" font-weight="700" fill="#e0a33f">M4</text>
+</svg>

@@ -1,0 +1,125 @@
+---
+import { seasons, itineraries, routes, climateIntro, climateBaseline } from '../config/content';
+import { attraction } from '../config/site';
+---
+
+<section class="section section--tint" id="temporadas" data-reveal>
+  <div class="wrap">
+    <p class="eyebrow">Cuándo ir</p>
+    <h2 class="sec-title">Estrategia de visita por temporada en {attraction.city}</h2>
+    <p class="lead">{climateIntro}</p>
+
+    <div class="table-wrap">
+      <table class="season-table">
+        <caption class="sr-only">
+          Comparativa de temporadas para visitar el {attraction.fullName}
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">Temporada</th>
+            <th scope="col">Clima</th>
+            <th scope="col">Afluencia</th>
+            <th scope="col">Mejor plan</th>
+            <th scope="col">Precauciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            seasons.map((s) => (
+              <tr>
+                <th scope="row">{s.season}</th>
+                <td>{s.climate}</td>
+                <td>{s.crowd}</td>
+                <td>{s.best}</td>
+                <td>{s.caution}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <div class="climate-baseline">
+      {
+        climateBaseline.map((c) => (
+          <div class="climate-baseline__item">
+            <span class="climate-baseline__k">{c.k}</span>
+            <span class="climate-baseline__v">{c.v}</span>
+          </div>
+        ))
+      }
+    </div>
+    <p class="climate-baseline__note">
+      Valores de referencia del clima urbano de {attraction.city}, útiles para planificar el horario y la
+      ropa. No son un pronóstico: para eso usá el módulo de clima de esta misma página.
+    </p>
+  </div>
+</section>
+
+<section class="section" id="recorridos" data-reveal>
+  <div class="wrap">
+    <p class="eyebrow">Recorridos</p>
+    <h2 class="sec-title">Rutas recomendadas según el tipo de visitante</h2>
+    <p class="lead">
+      Tres propuestas pensadas según con quién viajes y cuánto esfuerzo físico quieras hacer. Todas
+      empiezan por el acceso de la Av. Silvio Pettirossi.
+    </p>
+
+    <div class="grid grid--3">
+      {
+        itineraries.map((it) => (
+          <article class="itin">
+            <div class="itin__icon" aria-hidden="true">{it.icon}</div>
+            <h3>{it.name}</h3>
+            <p class="itin__tagline">{it.tagline}</p>
+            <p class="itin__duration">Duración estimada: {it.duration}</p>
+            <ol class="itin__stops">
+              {it.stops.map((s) => (
+                <li>{s}</li>
+              ))}
+            </ol>
+            <ul class="itin__tips">
+              {it.tips.map((t) => (
+                <li>{t}</li>
+              ))}
+            </ul>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<section class="section section--tint" id="rutas" data-reveal>
+  <div class="wrap">
+    <p class="eyebrow">Itinerario general</p>
+    <h2 class="sec-title">Recorrido sugerido: media jornada y jornada completa</h2>
+
+    <div class="grid grid--2">
+      {
+        routes.map((r) => (
+          <article class="route">
+            <h3>
+              <span aria-hidden="true">{r.icon}</span> {r.name}
+            </h3>
+            <p class="route__intro">{r.intro}</p>
+            <ol class="route__blocks">
+              {r.blocks.map((b) => (
+                <li>
+                  <span class="route__t">{b.t}</span>
+                  <span class="route__d">{b.d}</span>
+                </li>
+              ))}
+            </ol>
+          </article>
+        ))
+      }
+    </div>
+
+    <p class="prose" style="margin-top:26px">
+      Un detalle importante para armar el orden: el {attraction.shortName} es enorme y no tiene un circuito
+      único. La mejor estrategia es entrar por un acceso, recorrer en línea recta hasta el extremo opuesto y
+      volver por un pasillo paralelo, en lugar de zigzaguear.
+    </p>
+  </div>
+</section>

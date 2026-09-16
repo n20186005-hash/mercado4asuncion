@@ -1,0 +1,64 @@
+---
+import { attraction, timeline } from '../config/site';
+import { historyStories } from '../config/content';
+---
+
+<section class="section" id="historia" data-reveal>
+  <div class="wrap">
+    <p class="eyebrow">Historia</p>
+    <h2 class="sec-title">Historia y significado del {attraction.fullName}</h2>
+    <p class="lead">
+      Casi un siglo de comercio popular: del Mercado Guasú del centro al barrio Pettirossi, y de ahí al cine
+      y a la identidad de {attraction.city}.
+    </p>
+
+    <div class="timeline">
+      {
+        timeline.map((t) => (
+          <div class="timeline__item">
+            <div class="timeline__year">{t.year}</div>
+            <h3>{t.title}</h3>
+            <p>{t.text}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<section class="section section--tint" id="relatos" data-reveal>
+  <div class="wrap">
+    <p class="eyebrow">Contexto y relatos</p>
+    <h2 class="sec-title">Historias del {attraction.shortName}: cómo se construyó un ícono popular</h2>
+    <p class="lead">
+      Más allá de las fechas, el {attraction.fullName} se explica por las capas que fue acumulando: una
+      mudanza forzada, una expansión sin plan, un saber botánico ancestral y una película que lo volvió
+      internacional.
+    </p>
+
+    <div class="grid grid--3">
+      {
+        historyStories.map((s) => (
+          <article class="story">
+            <div class="story__year">{s.year}</div>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+          </article>
+        ))
+      }
+    </div>
+
+    <p class="prose" style="margin-top:26px">
+      Si querés profundizar en el costado institucional, la
+      <a href={attraction.juntaMunicipalUrl} target="_blank" rel="noopener noreferrer">
+        Junta Municipal de {attraction.city}
+      </a>
+      y la
+      <a href={attraction.municipalityUrl} target="_blank" rel="noopener noreferrer">
+        Municipalidad de {attraction.city}
+      </a>
+      publican material sobre el patrimonio comercial de la ciudad. Las fechas aquí resumidas deben
+      contrastarse con esas fuentes si se usan con fines académicos.
+    </p>
+  </div>
+</section>

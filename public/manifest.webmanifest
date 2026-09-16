@@ -1,0 +1,52 @@
+{
+  "name": "Mercado Municipal N° 4 - Guía de visita de Asunción, Paraguay",
+  "short_name": "Mercado 4",
+  "description": "Guía completa del visitante del Mercado Municipal N° 4 (Mercado 4) en Asunción, Distrito Capital, Paraguay: ubicación, horarios, historia y alrededores.",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#fdf7ed",
+  "theme_color": "#16241d",
+  "lang": "es-PY",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["travel", "shopping", "food", "lifestyle"],
+  "shortcuts": [
+    {
+      "name": "Ubicación y mapa",
+      "short_name": "Mapa",
+      "description": "Abrir el mapa y las indicaciones para llegar",
+      "url": "/#ubicacion",
+      "icons": [{ "src": "/favicon.svg", "sizes": "any" }]
+    },
+    {
+      "name": "Preguntas frecuentes",
+      "short_name": "FAQ",
+      "description": "Preguntas frecuentes sobre el Mercado 4",
+      "url": "/#faq",
+      "icons": [{ "src": "/favicon.svg", "sizes": "any" }]
+    },
+    {
+      "name": "Opiniones",
+      "short_name": "Opiniones",
+      "description": "Ver la calificación sincronizada de Google Maps",
+      "url": "/#opiniones",
+      "icons": [{ "src": "/favicon.svg", "sizes": "any" }]
+    }
+  ]
+}
