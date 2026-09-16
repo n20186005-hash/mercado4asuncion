@@ -8,6 +8,7 @@ import {
   headline,
   formatDayLabel,
   formatTime,
+  uvLabel,
 } from '../lib/weather';
 import { attraction } from '../config/site';
 
@@ -19,6 +20,10 @@ const advice = buildAdvice(current, days);
 const adviceHtml = renderAdviceHtml(advice);
 const summary = headline(current, days);
 const hasData = Boolean(current || days.length > 0);
+
+const todayPop = days[0]?.precipitationProbability ?? null;
+const todayUv = days[0]?.uvIndex ?? null;
+const uvText = (uv: number | null) => (uv === null ? '—' : `${Math.round(uv)} · ${uvLabel(uv)}`);
 
 const round = (n: number | null | undefined) =>
   n === null || n === undefined ? '—' : String(Math.round(n));
@@ -41,9 +46,10 @@ const kmh = (n: number | null | undefined) =>
     <p class="eyebrow">Clima</p>
     <h2 class="sec-title">Clima y pronóstico en el {attraction.shortName}</h2>
     <p class="lead">
-      Condiciones de hoy y pronóstico de los próximos días en {attraction.city}, traducidas a
-      recomendaciones concretas: qué ponerte, cómo organizar la visita y qué llevar. El {attraction.shortName}
-      se recorre a pie, con tramos techados pero poca sombra.
+      Condiciones de hoy y pronóstico de los próximos días en {attraction.city}, traducidos a recomendaciones
+      concretas: aviso de riesgo cuando corresponde, qué ponerte, cómo organizar la visita y qué llevar.
+      El {attraction.shortName} se recorre a pie, con tramos techados pero poca sombra y veredas que se
+      mojan rápido cuando llueve.
     </p>
 
     <div class="wx">
@@ -73,7 +79,15 @@ const kmh = (n: number | null | undefined) =>
             <span class="wx__v" data-wx="wind">{kmh(current?.windSpeed)}</span>
           </li>
           <li>
-            <span class="wx__k">Lluvia 1 h</span>
+            <span class="wx__k">Probabilidad de lluvia</span>
+            <span class="wx__v" data-wx="pop">{pct(todayPop)}</span>
+          </li>
+          <li>
+            <span class="wx__k">Sol del día</span>
+            <span class="wx__v" data-wx="uv">{uvText(todayUv)}</span>
+          </li>
+          <li>
+            <span class="wx__k">Lluvia última hora</span>
             <span class="wx__v" data-wx="precip">{mm(current?.precipitation)}</span>
           </li>
         </ul>
@@ -137,6 +151,7 @@ const kmh = (n: number | null | undefined) =>
     headline,
     formatDayLabel,
     formatTime,
+    uvLabel,
   } from '../lib/weather';
 
   const root = document.getElementById('clima');
@@ -174,6 +189,13 @@ const kmh = (n: number | null | undefined) =>
       set('feels', `${round(c?.apparentTemperature)}°`);
       set('hum', pct(c?.humidity));
       set('wind', kmh(c?.windSpeed));
+      const uv0 = w.days[0]?.uvIndex ?? null;
+      set(
+        'uv',
+        uv0 === null ? '—' : `${Math.round(uv0)} · ${uvLabel(uv0)}`
+      );
+      const pop0 = w.days[0]?.precipitationProbability ?? null;
+      set('pop', pop0 === null ? '—' : `${Math.round(pop0)}%`);
       set('precip', mm(c?.precipitation));
       set('updated', formatTime(c?.time) || 'hace instantes');
 

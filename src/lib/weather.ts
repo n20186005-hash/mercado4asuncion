@@ -33,6 +33,8 @@ export interface WeatherPayload {
 
 /** Recomendaciones agrupadas: se muestran solo los bloques que aplican. */
 export interface AdviceBundle {
+  /** Nombres de los avisos activos, para encabezar el bloque de riesgo. */
+  alerts: string[];
   risks: string[];
   outfit: string[];
   plan: string[];
@@ -89,7 +91,7 @@ const HEAVY_CODES = new Set([55, 57, 65, 67, 81, 82]);
 
 export function describeCode(code: number | null | undefined) {
   if (code === null || code === undefined) {
-    return { label: 'Sin datos', icon: '🌡️', group: 'nubes' };
+    return { label: 'Sin datos', icon: '🌡️', group: 'sin-datos' };
   }
   return WMO[code] ?? { label: 'Condiciones variables', icon: '🌡️', group: 'nubes' };
 }
@@ -137,7 +139,9 @@ export function headline(current: WeatherCurrent | null, days: WeatherDay[]): st
   if (today?.tMin !== null && today?.tMin !== undefined && today?.tMax !== null && today?.tMax !== undefined) {
     parts.push(`hoy ${Math.round(today.tMin)}° – ${Math.round(today.tMax)}°`);
   }
-  const uv = uvLabel(today?.uvIndex);
+  // Con lluvia o tormenta el nivel de sol no es lo que condiciona la visita.
+  const wet = describeCode(current?.weatherCode ?? today?.weatherCode).group;
+  const uv = wet === 'soleado' || wet === 'nubes' ? uvLabel(today?.uvIndex) : '';
   if (uv) parts.push(uv);
   const wind = windLabel(current?.windSpeed);
   if (wind) parts.push(wind);
@@ -152,6 +156,7 @@ export function headline(current: WeatherCurrent | null, days: WeatherDay[]): st
  * visita, qué llevar y si hay algún aviso que amerite cambiar de plan.
  */
 export function buildAdvice(current: WeatherCurrent | null, days: WeatherDay[]): AdviceBundle {
+  const alerts: string[] = [];
   const risks: string[] = [];
   const outfit: string[] = [];
   const plan: string[] = [];
@@ -181,25 +186,33 @@ export function buildAdvice(current: WeatherCurrent | null, days: WeatherDay[]):
 
   /* ---- Avisos que pueden cambiar el plan ---- */
   if (storm) {
+    alerts.push('Tormentas');
     risks.push(
-      'Tormentas previstas: no te refugies bajo árboles ni estructuras metálicas y evitá quedarte en zonas abiertas.'
+      'Con rayos y truenos no te refugies bajo árboles ni estructuras metálicas: entrá a un local y esperá a que pase.'
     );
   }
   if (heavyRain) {
-    risks.push('Lluvia fuerte prevista: los pasillos se inundan y el piso queda muy resbaladizo.');
+    alerts.push('Lluvia fuerte');
+    risks.push(
+      'Lluvia fuerte prevista: los accesos se inundan y el piso queda muy resbaladizo. Postergá la visita si podés.'
+    );
   }
   if (veryWindy) {
+    alerts.push('Viento fuerte');
     risks.push(
-      'Viento muy fuerte: alejate de carteles, toldos y árboles, y tené cuidado con lo que se vuela de los puestos.'
+      'Viento muy fuerte: alejate de carteles, toldos y árboles, y cuidado con lo que se vuela de los puestos.'
     );
   }
   if (tMax !== null && tMax >= 40) {
+    alerts.push('Calor extremo');
     risks.push('Calor extremo: pasarse varias horas adentro del mercado con esta temperatura es un riesgo real.');
   }
   if (group === 'niebla') {
-    risks.push('Niebla y poca visibilidad en los accesos: llegá con tiempo y con precaución si manejás.');
+    alerts.push('Niebla');
+    risks.push('Niebla y poca visibilidad: manejá con precaución y llegá con tiempo de sobra.');
   }
   if (tMax !== null && tMax <= 10) {
+    alerts.push('Frío intenso');
     risks.push('Hace mucho frío para la ciudad: abrigate bien si vas a estar de pie mucho tiempo.');
   }
 
@@ -277,7 +290,7 @@ export function buildAdvice(current: WeatherCurrent | null, days: WeatherDay[]):
     gear.push('Campera gruesa, bufanda y guantes');
   }
 
-  return { risks, outfit, plan, gear };
+  return { alerts, risks, outfit, plan, gear };
 }
 
 /** Consejo breve para cada tarjeta del pronóstico de los próximos días. */
@@ -314,17 +327,19 @@ export function renderAdviceHtml(a: AdviceBundle): string {
 
   const risk = a.risks.length
     ? `<div class="wx__risk" role="alert">
-         <h4 class="wx__block-title"><span aria-hidden="true">⚠️</span>Aviso importante</h4>
+         <h4 class="wx__block-title"><span aria-hidden="true">⚠️</span>Aviso de riesgo: ${a.alerts.join(' · ')}</h4>
+         <p class="wx__risk-lead">Con este panorama conviene ajustar el itinerario y seguir de cerca cómo sigue el tiempo durante el día.</p>
          <ul>${list(a.risks)}</ul>
        </div>`
     : `<div class="wx__risk wx__risk--ok">
-         <h4 class="wx__block-title"><span aria-hidden="true">✓</span>Sin avisos meteorológicos para hoy</h4>
+         <h4 class="wx__block-title"><span aria-hidden="true">✓</span>Sin avisos de riesgo para hoy</h4>
+         <p class="wx__risk-lead">No hay condiciones que ameriten cambiar el plan: se puede recorrer con normalidad.</p>
        </div>`;
 
   return (
     risk +
-    block('👕', 'Qué ponerte', a.outfit) +
-    block('🗺️', 'Cómo organizar la visita', a.plan) +
+    block('👕', 'Qué ponerse', a.outfit) +
+    block('🗺️', 'Plan de visita', a.plan) +
     block('🎒', 'Qué llevar', a.gear)
   );
 }

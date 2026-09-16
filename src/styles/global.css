@@ -1038,14 +1038,27 @@ html.no-anim [data-reveal] {
 .wx__advice {
   margin-top: 24px;
   display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
 }
+@media (max-width: 900px) {
+  .wx__advice {
+    grid-template-columns: 1fr;
+  }
+}
 .wx__risk {
+  grid-column: 1 / -1;
   background: #fff2f1;
   border: 1px solid #f3c9c4;
   border-left: 4px solid #c0392b;
   border-radius: var(--radius-sm);
   padding: 16px 18px;
+}
+.wx__risk-lead {
+  margin-top: 6px;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: #7d2b22;
 }
 .wx__risk .wx__block-title {
   color: #8e2018;
@@ -1067,7 +1080,9 @@ html.no-anim [data-reveal] {
 }
 .wx__risk--ok .wx__block-title {
   color: #256b39;
-  margin-bottom: 0;
+}
+.wx__risk--ok .wx__risk-lead {
+  color: #256b39;
 }
 
 .wx__block {
