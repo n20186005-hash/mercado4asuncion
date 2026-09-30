@@ -28,10 +28,12 @@ const heroAlt = gallery[0].alt;
 const ogImage = `${siteUrl}${hero}`;
 
 /* ---------------------------------------------------------------- TDK / OG */
-const title = `${attraction.fullName} (${attraction.city}) - Guía del visitante y ubicación`;
-const description = `Guía del visitante del ${attraction.fullName}, conocido como ${attraction.shortName}, en ${attraction.city}, ${attraction.country}: ubicación, horarios, qué comprar, historia y ${NEARBY_LANDMARK_1}.`;
-const ogTitle = `${attraction.fullName} - Guía de viaje de ${attraction.city}`;
-const ogDescription = `Guía completa del visitante del ${attraction.fullName} en ${attraction.city}, ${attraction.region}, ${attraction.country}.`;
+// El título lidera con el nombre que la gente busca («Mercado 4») e incluye
+// las intenciones de búsqueda de mayor volumen: «horarios» y «cómo llegar».
+const title = `${attraction.shortName} ${attraction.city}: horarios, cómo llegar y qué comprar`;
+const description = `Guía de visita del ${attraction.shortName} en ${attraction.city}, ${attraction.country}: horarios de atención, cómo llegar en colectivo o auto, mapa de ubicación (${attraction.plusCode}) y los mejores puestos para comprar y comer.`;
+const ogTitle = `${attraction.shortName} ${attraction.city} — Guía de visita, horarios y cómo llegar`;
+const ogDescription = `Todo sobre el ${attraction.shortName} en ${attraction.city}: horarios, cómo llegar, ubicación en el mapa, qué comprar y consejos para tu visita.`;
 
 /* ------------------------------------------------------- Structured data 1 */
 const jsonLd = {
@@ -218,6 +220,7 @@ const breadcrumbTrail = [
           <a href="#clima">Clima</a>
           <a href="#opiniones">Opiniones</a>
           <a href="#ubicacion">Ubicación</a>
+          <a href="#horario">Horarios</a>
           <a href="#transporte">Cómo llegar</a>
           <a href="#servicios">Servicios</a>
           <a href="#alrededores">Alrededores</a>
@@ -473,6 +476,18 @@ const breadcrumbTrail = [
                 </p>
               </div>
 
+              <h3 id="horario" class="sub-title">Horarios del {attraction.shortName}</h3>
+              <div class="prose" style="margin-bottom:20px">
+                <p>
+                  El {attraction.fullName} funciona todos los días de manera continua desde muy temprano:
+                  el movimiento empieza cerca de las <strong>05:00</strong> y se mantiene hasta media tarde,
+                  alrededor de las <strong>18:00</strong>. Cada puesto maneja su propio horario, por lo que
+                  conviene confirmar si se busca algo específico. La mejor franja para visitarlo es por la
+                  mañana, entre las <strong>08:00</strong> y las <strong>11:00</strong>, cuando llega la
+                  mercadería fresca y los pasillos todavía no están al máximo de gente.
+                </p>
+              </div>
+
               <div class="kv">
                 <div class="kv__row">
                   <div class="kv__k">Dirección</div>
@@ -662,6 +677,7 @@ const breadcrumbTrail = [
               <li><a href="#clima">Clima y pronóstico</a></li>
               <li><a href="#opiniones">Opiniones</a></li>
               <li><a href="#ubicacion">Ubicación</a></li>
+              <li><a href="#horario">Horarios</a></li>
               <li><a href="#transporte">Cómo llegar</a></li>
               <li><a href="#servicios">Servicios</a></li>
               <li><a href="#temporadas">Cuándo ir</a></li>
