@@ -1,10 +1,5 @@
-# Real photo sources
+# Image provenance
 
-- mercado4-hero.jpg
-  https://commons.wikimedia.org/wiki/File:%22Mercado_4%22_Asunci%C3%B3n,_%28Paraguay%29.jpg
+The four prior JPEGs were visually inspected. Several captions did not match the visible subject: the stalls view showed a passage/person rather than fruit stalls, and the hero was a street scene rather than a verified front entrance. Three cited Commons file pages identify David Ramalleira photographs under CC BY 2.0, but their original downloads returned403 and exact pairing to all four local files could not be established. No license defect or subject/model release is inferred. Photographs were removed from this candidate without claiming completed identity/rights verification.
 
-- mercado4-stalls.jpg
-  https://commons.wikimedia.org/wiki/File:%22Mercado_4%22_Asunci%C3%B3n_%28Paraguay%29.jpg
-
-- mercado4-interior.jpg
-  https://commons.wikimedia.org/wiki/File:%22Mercado_4%22_Asunci%C3%B3n_%28Paraguay%29_-_53400338007.jpg
+public/images/market-illustration.svg is an original abstract geometric illustration created for this guide, dedicated under CC0: https://creativecommons.org/publicdomain/zero/1.0/ . It is not a photograph, floor plan or depiction of real stalls, people or facilities. Visible hero/gallery credits and social alt text preserve that scope. No photographic/subject/property rights clearance is claimed. Existing project favicon retained.

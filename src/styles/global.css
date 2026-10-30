@@ -294,11 +294,6 @@ ul {
   text-decoration: none;
 }
 
-@media (max-width: 860px) {
-  .site-nav {
-    display: none;
-  }
-}
 
 /* ---------- Hero ---------- */
 
@@ -955,19 +950,6 @@ html.no-anim [data-reveal] {
   border: 0;
 }
 
-.site-nav {
-  overflow-x: auto;
-  white-space: nowrap;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  max-width: 100%;
-}
-.site-nav::-webkit-scrollbar {
-  display: none;
-}
-.site-nav a {
-  flex: 0 0 auto;
-}
 
 /* ---------- Clima ---------- */
 
@@ -1608,3 +1590,13 @@ html.no-anim [data-reveal] {
     display: none !important;
   }
 }
+
+/* Native disclosure menu: discoverable without horizontal scrolling or JavaScript. */
+.site-header__inner {display:block;}
+.section-menu {margin-top:12px;}
+.section-menu > summary {cursor:pointer;padding:10px 14px;border:1px solid var(--gold);border-radius:10px;color:var(--cream);font-weight:700;width:fit-content;max-width:100%;}
+.section-menu[open] > summary {margin-bottom:12px;}
+.section-menu .site-nav {display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,12rem),1fr));gap:8px;max-width:100%;min-width:0;max-height:60vh;overflow-y:auto;overflow-x:hidden;white-space:normal;scrollbar-width:auto;margin:0;padding:4px;letter-spacing:.04em;}
+.section-menu .site-nav a {display:block;padding:8px;white-space:normal;border:1px solid rgba(253,247,237,.18);border-radius:6px;}
+[id] {scroll-margin-top:10rem;}
+a:focus-visible,summary:focus-visible,button:focus-visible {outline:3px solid var(--gold);outline-offset:3px;}

@@ -1,57 +1,60 @@
-/* Service Worker — Mercado Municipal N° 4 (Mercado 4) Asunción */
-const CACHE_NAME = 'mercado4-asuncion-v1';
-const CORE_ASSETS = ['/', '/manifest.webmanifest', '/favicon.svg'];
+/* Mercado 4 independent guide — offline service worker.
+   Strategy: precache the app shell, network-first for navigations with an
+   offline fallback, stale-while-revalidate for same-origin static assets.
+   Cross-origin requests (Google Analytics, Google Maps) always go to the
+   network so they keep working normally. */
+
+const VERSION = 'mercado4-guide-2026-10-29';
+
+const PRECACHE = ['/', '/favicon.svg'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches
-      .open(CACHE_NAME)
-      .then((cache) => cache.addAll(CORE_ASSETS))
-      .catch(() => {})
+      .open(VERSION)
+      .then((cache) => cache.addAll(PRECACHE))
+      .then(() => self.skipWaiting())
   );
-  self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches
       .keys()
-      .then((keys) =>
-        Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k)))
-      )
+      .then((keys) => Promise.all(keys.filter((key) => key !== VERSION).map((key) => caches.delete(key))))
+      .then(() => self.clients.claim())
   );
-  self.clients.claim();
 });
 
 self.addEventListener('fetch', (event) => {
-  const { request } = event;
+  const request = event.request;
   if (request.method !== 'GET') return;
 
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
 
-  // Navegaciones: network-first con fallback a la página en caché (offline)
   if (request.mode === 'navigate') {
     event.respondWith(
       fetch(request)
         .then((response) => {
-          const copy = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put('/', copy)).catch(() => {});
+          if (['/'].includes(url.pathname) && response.status === 200) {
+            const copy = response.clone();
+            caches.open(VERSION).then((cache) => cache.put(url.pathname, copy));
+          }
           return response;
         })
-        .catch(() => caches.match('/').then((c) => c || caches.match('/index.html')))
+        .catch(async () => (['/'].includes(url.pathname) && await caches.match(url.pathname)) || new Response('Page unavailable offline',{status:503,headers:{'X-Robots-Tag':'noindex'}}))
     );
     return;
   }
 
-  // Estáticos: stale-while-revalidate
   event.respondWith(
     caches.match(request).then((cached) => {
       const network = fetch(request)
         .then((response) => {
           if (response && response.status === 200 && response.type === 'basic') {
             const copy = response.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(request, copy)).catch(() => {});
+            caches.open(VERSION).then((cache) => cache.put(request, copy));
           }
           return response;
         })

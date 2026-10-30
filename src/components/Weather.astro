@@ -12,7 +12,7 @@ import {
 } from '../lib/weather';
 import { attraction } from '../config/site';
 
-const weather = await getWeather(attraction.latitude, attraction.longitude);
+const weather = null as Awaited<ReturnType<typeof getWeather>>;
 const current = weather?.current ?? null;
 const days = weather?.days ?? [];
 const now = describeCode(current?.weatherCode ?? days[0]?.weatherCode);
@@ -45,12 +45,7 @@ const kmh = (n: number | null | undefined) =>
   <div class="wrap">
     <p class="eyebrow">Clima</p>
     <h2 class="sec-title">Clima y pronóstico en el {attraction.shortName}</h2>
-    <p class="lead">
-      Condiciones de hoy y pronóstico de los próximos días en {attraction.city}, traducidos a recomendaciones
-      concretas: aviso de riesgo cuando corresponde, qué ponerte, cómo organizar la visita y qué llevar.
-      El {attraction.shortName} se recorre a pie, con tramos techados pero poca sombra y veredas que se
-      mojan rápido cuando llueve.
-    </p>
+    <p class="lead">Previsión de modelo de <a href="https://open-meteo.com/">Open-Meteo</a>, datos <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>, resumidos por esta guía. Se consulta en el navegador; no es una estación dentro del mercado ni una alerta oficial. Verificá las condiciones reales antes de salir.</p>
 
     <div class="wx">
       <div class="wx__now">
@@ -93,7 +88,7 @@ const kmh = (n: number | null | undefined) =>
         </ul>
 
         <p class="wx__updated">
-          Actualizado: <span data-wx="updated">{formatTime(current?.time) || 'hace instantes'}</span>
+          Actualizado: <span data-wx="updated">{formatTime(current?.time) || 'sin hora del modelo'}</span>
         </p>
       </div>
 
@@ -134,10 +129,7 @@ const kmh = (n: number | null | undefined) =>
       para ver las condiciones actuales y las recomendaciones para los próximos días en {attraction.city}.
     </p>
 
-    <p class="wx__note">
-      Regla general: en verano el pico de calor se da entre las 12:00 y las 15:00, y las lluvias intensas son
-      más frecuentes por la tarde. Si querés recorrer con comodidad, apuntá a la mañana.
-    </p>
+    <p class="wx__note">El estado del tiempo no confirma que un puesto, pasillo o servicio esté abierto.</p>
   </div>
 </section>
 
@@ -197,7 +189,7 @@ const kmh = (n: number | null | undefined) =>
       const pop0 = w.days[0]?.precipitationProbability ?? null;
       set('pop', pop0 === null ? '—' : `${Math.round(pop0)}%`);
       set('precip', mm(c?.precipitation));
-      set('updated', formatTime(c?.time) || 'hace instantes');
+      set('updated', formatTime(c?.time) || 'sin hora del modelo');
 
       const adviceBox = root.querySelector('[data-wx="advice"]');
       if (adviceBox) {

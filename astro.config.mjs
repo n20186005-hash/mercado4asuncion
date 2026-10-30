@@ -8,5 +8,5 @@ const site = process.env.PUBLIC_SITE_URL || 'https://mercado4asuncion.com';
 export default defineConfig({
   site,
   trailingSlash: 'never',
-  integrations: site ? [sitemap()] : [],
+  integrations: site ? [sitemap({filter: (page) => !/\/404(?:\.html|\/)?$/.test(new URL(page).pathname)})] : [],
 });

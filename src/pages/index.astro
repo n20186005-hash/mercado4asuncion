@@ -10,8 +10,6 @@ import {
   reviewHighlights,
   reviewNotes,
   sources,
-  NEARBY_LANDMARK_1,
-  NEARBY_LANDMARK_2,
 } from '../config/site';
 
 import Weather from '../components/Weather.astro';
@@ -24,16 +22,14 @@ import Science from '../components/Science.astro';
 const siteUrl = (Astro.site?.toString().replace(/\/$/, '')) || BASE;
 const canonical = `${siteUrl}/`;
 const hero = gallery[0].src;
-const heroAlt = gallery[0].alt;
 const ogImage = `${siteUrl}${hero}`;
 
 /* ---------------------------------------------------------------- TDK / OG */
-// El título lidera con el nombre que la gente busca («Mercado 4») e incluye
-// las intenciones de búsqueda de mayor volumen: «horarios» y «cómo llegar».
+// Visitor-facing Spanish identity and planning metadata.
 const title = `${attraction.shortName} ${attraction.city}: horarios, cómo llegar y qué comprar`;
-const description = `Guía de visita del ${attraction.shortName} en ${attraction.city}, ${attraction.country}: horarios de atención, cómo llegar en colectivo o auto, mapa de ubicación (${attraction.plusCode}) y los mejores puestos para comprar y comer.`;
+const description = 'Mercado 4 de Asunción: referencia municipal para llegar al Paseo de los Yuyos, qué rubros encontrar y cómo confirmar horarios, domingos, pagos y servicios.';
 const ogTitle = `${attraction.shortName} ${attraction.city} — Guía de visita, horarios y cómo llegar`;
-const ogDescription = `Todo sobre el ${attraction.shortName} en ${attraction.city}: horarios, cómo llegar, ubicación en el mapa, qué comprar y consejos para tu visita.`;
+const ogDescription = `Orientación para visitar el ${attraction.shortName} en ${attraction.city}: horarios, cómo llegar, ubicación en el mapa, qué comprar y consejos para tu visita.`;
 
 /* ------------------------------------------------------- Structured data 1 */
 const jsonLd = {
@@ -50,13 +46,10 @@ const jsonLd = {
   description: `Guía completa del visitante del ${attraction.fullName} (${attraction.shortName}) en ${attraction.city}, ${attraction.region}, ${attraction.country}.`,
   url: canonical,
   image: gallery.map((g) => `${siteUrl}${g.src}`),
-  isAccessibleForFree: true,
   address: {
     '@type': 'PostalAddress',
-    streetAddress: attraction.streetAddress,
     addressLocality: attraction.city,
     addressRegion: attraction.region,
-    postalCode: attraction.postalCode,
     addressCountry: attraction.countryCode,
   },
   geo: {
@@ -65,28 +58,7 @@ const jsonLd = {
     longitude: attraction.longitude,
   },
   hasMap: attraction.mapsShareUrl,
-  telephone: attraction.phone,
-  openingHoursSpecification: [
-    {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: [
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-        'Sunday',
-      ],
-      opens: '05:00',
-      closes: '18:00',
-    },
-  ],
-  sameAs: [
-    attraction.mapsShareUrl,
-    attraction.govTourismUrl,
-    attraction.municipalityUrl,
-  ],
+  sameAs: [attraction.mapsShareUrl],
 };
 
 /* ------------------------------------------------------- Structured data 2 */
@@ -100,21 +72,10 @@ const webPageLd = {
   inLanguage: 'es-PY',
   isPartOf: { '@type': 'WebSite', '@id': `${siteUrl}/#website`, url: canonical, name: `${attraction.shortName} ${attraction.city}`, inLanguage: 'es-PY' },
   about: { '@id': `${siteUrl}/#attraction` },
-  primaryImageOfPage: { '@type': 'ImageObject', url: ogImage, caption: `${attraction.fullName} en ${attraction.city}` },
+  primaryImageOfPage: { '@type': 'ImageObject', url: ogImage, caption: 'Ilustración geométrica, no fotografía ni plano del mercado' },
 };
 
 /* ------------------------------------------------------- Structured data 3 */
-const breadcrumbLd = {
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  itemListElement: [
-    { '@type': 'ListItem', position: 1, name: attraction.fullName, item: `${siteUrl}/#inicio` },
-    { '@type': 'ListItem', position: 2, name: attraction.city, item: `${siteUrl}/#sobre` },
-    { '@type': 'ListItem', position: 3, name: attraction.region, item: `${siteUrl}/#ubicacion` },
-    { '@type': 'ListItem', position: 4, name: attraction.country, item: `${siteUrl}/#fuentes` },
-  ],
-};
-
 /* ------------------------------------------------------- Structured data 4 */
 const faqLd = {
   '@context': 'https://schema.org',
@@ -127,8 +88,8 @@ const faqLd = {
 };
 
 /* ------------------------------------------------------------ Textos fuente */
-const ratingSourceLine = `Calificación y número de opiniones sincronizados desde las opiniones de usuarios de Google Maps · ${attraction.syncDate} ·`;
-const reviewsAttribution = `Sincronizado desde las opiniones de usuarios de Google Maps, con fecha de sincronización ${attraction.syncDate}; los derechos de autor pertenecen a sus autores originales y a Google Maps.`;
+const ratingSourceLine = `Referencia fechada de terceros en Google Maps; no opiniones recopiladas por esta guía · ${attraction.syncDate} ·`;
+const reviewsAttribution = `Consulta manual de Google Maps del ${attraction.syncDate}; no es actualización automática ni garantía de servicios.`;
 const viewAllLabel = 'Ver todas las opiniones en Google Maps';
 
 const breadcrumbTrail = [
@@ -140,7 +101,7 @@ const breadcrumbTrail = [
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang="es-PY">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -164,14 +125,14 @@ const breadcrumbTrail = [
     <meta property="og:description" content={ogDescription} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
-    <meta property="og:image:alt" content={`${attraction.fullName} en ${attraction.city}`} />
+    <meta property="og:image:alt" content="Ilustración geométrica original, no fotografía ni plano del mercado" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={ogTitle} />
     <meta name="twitter:description" content={ogDescription} />
     <meta name="twitter:image" content={ogImage} />
-    <meta name="twitter:image:alt" content={`${attraction.fullName} en ${attraction.city}`} />
+    <meta name="twitter:image:alt" content="Ilustración geométrica original, no fotografía ni plano del mercado" />
 
     <!-- PWA -->
     <meta name="theme-color" content="#16241d" />
@@ -189,7 +150,6 @@ const breadcrumbTrail = [
 
     <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
     <script is:inline type="application/ld+json" set:html={JSON.stringify(webPageLd)}></script>
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)}></script>
     <script is:inline type="application/ld+json" set:html={JSON.stringify(faqLd)}></script>
   </head>
 
@@ -213,6 +173,8 @@ const breadcrumbTrail = [
           </span>
           {attraction.shortName} {attraction.city}
         </a>
+        <details class="section-menu" id="section-menu">
+          <summary>Menú de secciones</summary>
         <nav class="site-nav" aria-label="Navegación principal">
           <a href="#sobre">Sobre</a>
           <a href="#mercado">El mercado</a>
@@ -231,6 +193,7 @@ const breadcrumbTrail = [
           <a href="#faq">FAQ</a>
           <a href="#fuentes">Fuentes</a>
         </nav>
+        </details>
       </div>
     </header>
 
@@ -240,7 +203,7 @@ const breadcrumbTrail = [
         <img
           class="hero__bg"
           src={hero}
-          alt={`${attraction.fullName} - Vista principal en ${attraction.city}, ${attraction.country}`}
+          alt=""
           width="1600"
           height="1067"
           loading="eager"
@@ -257,11 +220,7 @@ const breadcrumbTrail = [
 
           <h1>{attraction.fullName} <em>({attraction.city})</em></h1>
 
-          <p class="hero__tag">
-            El corazón comercial tradicional de Asunción. Bienvenido al <strong>{attraction.fullName}</strong>,
-            conocido por todos como el <strong>{attraction.shortName}</strong>: el mercado popular más grande y
-            vibrante de {attraction.city}, {attraction.region}, {attraction.country}.
-          </p>
+          <p class="hero__tag">El <strong>{attraction.fullName}</strong>, conocido como <strong>{attraction.shortName}</strong>, es un centro de comercio popular de Asunción. Esta guía independiente ayuda a distinguir los sectores, consultar horarios y preparar la visita sin prometer que cada puesto esté abierto.</p>
 
           <div class="rating">
             <div class="rating__score" aria-hidden="true">{attraction.ratingDisplay}</div>
@@ -279,6 +238,7 @@ const breadcrumbTrail = [
             </a>
           </p>
 
+          <p class="rating-source">Ilustración original CC0 de esta guía; no es fotografía ni plano del mercado. <a href="https://creativecommons.org/publicdomain/zero/1.0/">Licencia</a>.</p>
           <div class="hero__actions">
             <a class="btn btn--gold" href="#ubicacion">Ver ubicación y mapa</a>
             <a class="btn btn--ghost-light" href={attraction.mapsShareUrl} target="_blank" rel="noopener noreferrer">
@@ -293,8 +253,8 @@ const breadcrumbTrail = [
         <div class="strip">
           <div class="strip__item">
             <div class="strip__k">Entrada</div>
-            <div class="strip__v">Libre y gratuita</div>
-            <div class="strip__s">Espacio público de acceso abierto</div>
+            <div class="strip__v">Confirmar actividad</div>
+            <div class="strip__s">Compras y servicios por separado</div>
           </div>
           <div class="strip__item">
             <div class="strip__k">Horario</div>
@@ -304,41 +264,18 @@ const breadcrumbTrail = [
           <div class="strip__item">
             <div class="strip__k">Mejor momento</div>
             <div class="strip__v">{attraction.bestTime}</div>
-            <div class="strip__s">Llega la mercadería fresca</div>
+            <div class="strip__s">Consultá primero al vendedor</div>
           </div>
           <div class="strip__item">
             <div class="strip__k">Barrio</div>
             <div class="strip__v">{attraction.neighborhood}</div>
-            <div class="strip__s">CP {attraction.postalCode} · {attraction.plusCode}</div>
+            <div class="strip__s">Referencia general de zona</div>
           </div>
         </div>
       </div>
 
       <!-- ========================================================== SOBRE -->
-      <section class="section" id="sobre" data-reveal>
-        <div class="wrap">
-          <p class="eyebrow">Sobre el mercado</p>
-          <h2 class="sec-title">Sobre el {attraction.fullName}</h2>
-          <div class="prose" style="margin-top:22px">
-            <p>
-              Bienvenido al <strong>{attraction.fullName}</strong>, ampliamente reconocido como el
-              <strong>{attraction.shortName}</strong> (o «Mercado Cuatro»). Ubicado en el corazón de
-              <strong>{attraction.city}</strong>, <strong>{attraction.region}</strong>,
-              <strong>{attraction.country}</strong>, este destino funciona como uno de los grandes centros de
-              abasto y de comercio popular del país y como una parada imprescindible para quien visita la región.
-            </p>
-            <p>
-              Más que un mercado, es una pequeña ciudad dentro de la ciudad: varias manzanas de pasillos
-              cubiertos donde conviven verdulerías, carnicerías, cocinerías, puestos de yuyos medicinales,
-              ropa, calzados, artículos para el hogar y electrónica. Es también uno de los mejores lugares de
-              Asunción para comer comida típica paraguaya a precio de mercado.
-            </p>
-            <p>
-              Ruta de pertenencia de la entidad: <em>{breadcrumbTrail.join(' → ')}</em>.
-            </p>
-          </div>
-        </div>
-      </section>
+      <section class="section" id="sobre" data-reveal><div class="wrap"><p class="eyebrow">Sobre el mercado</p><h2 class="sec-title">Mercado Municipal N°4, Asunción</h2><div class="prose" style="margin-top:22px"><p>La Municipalidad describe un mercado de rubros diversos: textiles, calzados, tecnología y alimentos. Es un lugar de trabajo además de un destino de visita; la oferta concreta depende de cada vendedor.</p><p>Paseo de los Yuyos y el edificio municipal sirven como referencias del entorno de Pettirossi y República Francesa. Confirmá el sector que buscás: esta guía no convierte ese punto de encuentro en la única entrada del conjunto.</p></div></div></section>
 
       <!-- ======================================================= EL MERCADO -->
       <section class="section section--tint" id="mercado" data-reveal>
@@ -421,13 +358,13 @@ const breadcrumbTrail = [
 
           <div class="grid grid--2">
             <div class="panel">
-              <h3>Lo más valorado</h3>
+              <h3>Referencia publicada</h3>
               <ul>
                 {reviewHighlights.map((p) => <li><span aria-hidden="true">✓</span><span>{p}</span></li>)}
               </ul>
             </div>
             <div class="panel">
-              <h3>A tener en cuenta</h3>
+              <h3>Límites y preparación</h3>
               <ul>
                 {reviewNotes.map((n) => <li><span aria-hidden="true">ℹ</span><span>{n}</span></li>)}
               </ul>
@@ -451,109 +388,7 @@ const breadcrumbTrail = [
       </section>
 
       <!-- ======================================================= UBICACIÓN -->
-      <section class="section" id="ubicacion" data-reveal>
-        <div class="wrap">
-          <p class="eyebrow">Cómo llegar</p>
-          <h2 class="sec-title">Ubicación y cómo visitar el {attraction.shortName} en {attraction.city}</h2>
-
-          <div class="loc-grid" style="margin-top:26px">
-            <div>
-              <div class="prose">
-                <p>
-                  Ubicación: {attraction.streetAddress}, {attraction.city}, {attraction.country}.
-                  Entrada gratuita. Se recomienda visitar por la mañana, cuando los pasillos están activos y
-                  todavía no aprieta el calor.
-                </p>
-                <p>
-                  El mercado ocupa varias manzanas entre los barrios Pettirossi, San Roque, Ciudad Nueva y
-                  Pinozá. Lo más práctico es entrar por la Av. Silvio Pettirossi y recorrer los pasillos
-                  principales de punta a punta.
-                </p>
-                <p>
-                  Cuando visites el <strong>{attraction.fullName}</strong>, podés aprovechar para conocer
-                  puntos de interés histórico y cultural de la zona, incluidos
-                  <strong>{NEARBY_LANDMARK_1}</strong> y <strong>{NEARBY_LANDMARK_2}</strong>.
-                </p>
-              </div>
-
-              <h3 id="horario" class="sub-title">Horarios del {attraction.shortName}</h3>
-              <div class="prose" style="margin-bottom:20px">
-                <p>
-                  El {attraction.fullName} funciona todos los días de manera continua desde muy temprano:
-                  el movimiento empieza cerca de las <strong>05:00</strong> y se mantiene hasta media tarde,
-                  alrededor de las <strong>18:00</strong>. Cada puesto maneja su propio horario, por lo que
-                  conviene confirmar si se busca algo específico. La mejor franja para visitarlo es por la
-                  mañana, entre las <strong>08:00</strong> y las <strong>11:00</strong>, cuando llega la
-                  mercadería fresca y los pasillos todavía no están al máximo de gente.
-                </p>
-              </div>
-
-              <div class="kv">
-                <div class="kv__row">
-                  <div class="kv__k">Dirección</div>
-                  <div>{attraction.streetAddress}</div>
-                </div>
-                <div class="kv__row">
-                  <div class="kv__k">Barrio / CP</div>
-                  <div>{attraction.neighborhood} · {attraction.postalCode}</div>
-                </div>
-                <div class="kv__row">
-                  <div class="kv__k">Ciudad / Depto.</div>
-                  <div>{attraction.city} · {attraction.region} · {attraction.country} ({attraction.countryCode})</div>
-                </div>
-                <div class="kv__row">
-                  <div class="kv__k">Coordenadas</div>
-                  <div>{attraction.latitude}, {attraction.longitude}</div>
-                </div>
-                <div class="kv__row">
-                  <div class="kv__k">Plus Code</div>
-                  <div>{attraction.plusCode} {attraction.city}, {attraction.country}</div>
-                </div>
-                <div class="kv__row">
-                  <div class="kv__k">Horario</div>
-                  <div>{attraction.hours}</div>
-                </div>
-                <div class="kv__row">
-                  <div class="kv__k">Entrada</div>
-                  <div>{attraction.price}</div>
-                </div>
-                <div class="kv__row">
-                  <div class="kv__k">Teléfono</div>
-                  <div>{attraction.phone}</div>
-                </div>
-              </div>
-
-              <div style="margin-top:22px; display:flex; flex-wrap:wrap; gap:12px">
-                <a class="btn btn--primary" href={attraction.mapsShareUrl} target="_blank" rel="noopener noreferrer">
-                  Cómo llegar en Google Maps ↗
-                </a>
-                <a class="btn btn--ghost" href={attraction.govTourismUrl} target="_blank" rel="noopener noreferrer">
-                  Turismo oficial del Paraguay ↗
-                </a>
-              </div>
-            </div>
-
-            <div>
-              <div class="map-frame">
-                <iframe
-                  src={attraction.mapsEmbedSrc}
-                  width="100%"
-                  height="450"
-                  style="border:0;"
-                  allowfullscreen=""
-                  loading="lazy"
-                  referrerpolicy="strict-origin-when-cross-origin"
-                  title={`Mapa del ${attraction.fullName} en ${attraction.city}, ${attraction.country}`}
-                ></iframe>
-              </div>
-              <p style="margin-top:12px; font-size:.8rem; color:var(--ink-faint)">
-                Mapa de Google Maps. La calificación y las opiniones se sincronizan desde Google Maps
-                ({attraction.syncDate}) y se pueden consultar completas en el enlace oficial.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <section class="section" id="ubicacion" data-reveal><div class="wrap"><p class="eyebrow">Cómo llegar</p><h2 class="sec-title">Ubicación y referencia municipal</h2><div class="loc-grid" style="margin-top:26px"><div class="prose"><p>{attraction.streetAddress}. La nota municipal del 28 de octubre de 2025 identifica ese lugar frente a la administración como punto de encuentro de una actividad concreta. Confirmá acceso, sector y lugar de llegada antes de salir.</p><p>El punto de Maps usado como referencia general es {attraction.latitude}, {attraction.longitude}; no representa todas las puertas del mercado.</p><h3 id="horario" class="sub-title">Horarios y domingos</h3><p>{attraction.hours}. No se verificó un horario común dominical; cada vendedor o sector puede variar. La Municipalidad informó un ciclo cultural nocturno el 21 de septiembre de 2026 y ampliación de actividad nocturna el 18 de octubre de 2026. Esas notas no publican una tabla semanal completa ni confirman horario dominical: consultá la actividad y el vendedor concretos.</p><a class="btn btn--primary" href={attraction.mapsShareUrl} target="_blank" rel="noopener noreferrer">Ver referencia en Google Maps ↗</a></div><div class="map-frame"><iframe src={attraction.mapsEmbedSrc} width="100%" height="450" style="border:0" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin" title="Punto de referencia de Mercado 4 en Asunción"></iframe></div></div></div></section>
 
       <Transport />
 
@@ -565,9 +400,7 @@ const breadcrumbTrail = [
           <p class="eyebrow">Alrededores</p>
           <h2 class="sec-title">Lugares y atractivos alrededor del {attraction.shortName}</h2>
           <p class="lead">
-            Cuando visites el <strong>{attraction.fullName}</strong>, es fácil combinar la recorrida con
-            puntos históricos y culturales de interés de la zona, incluidos
-            <strong>{NEARBY_LANDMARK_1}</strong> y <strong>{NEARBY_LANDMARK_2}</strong>.
+            Elegí primero un sector y después planificá cualquier otro destino por separado. No se garantizan distancias ni conexiones inmediatas.
           </p>
 
           <div class="grid grid--2">
@@ -649,6 +482,7 @@ const breadcrumbTrail = [
           </p>
         </div>
       </section>
+      <section class="section section--tint" id="privacidad"><div class="wrap prose"><h2 class="sec-title">Privacidad y uso de la guía</h2><p>No hay cuentas, reservas, formulario de contacto ni analítica propia configurada. El mapa conecta con Google. El pronóstico, al cargar en el navegador, conecta directamente con Open-Meteo para las coordenadas fijas del mercado; no solicita tu geolocalización. Esos terceros pueden recibir datos técnicos de conexión. Consultá las políticas de <a href="https://policies.google.com/privacy">Google</a> y <a href="https://open-meteo.com/en/terms">Open-Meteo</a>.</p><p>Cloudflare aloja el sitio y puede tratar datos de conexión y rendimiento independientemente de esos servicios, según su <a href="https://www.cloudflare.com/privacypolicy/">política</a>. El navegador guarda archivos mediante caché y service worker para uso sin conexión; podés borrarlos desde sus ajustes. Una copia sin conexión puede estar desactualizada. No se garantiza que los terceros no usen cookies o identificadores.</p><p>Esta es una guía editorial, no el operador ni una garantía de apertura, seguridad, inventario o reserva. Cada vendedor, actividad y enlace externo tiene sus condiciones. <a href="#fuentes">Revisá fuentes y fechas</a> antes de decidir.</p></div></section>
     </main>
 
     <footer class="site-footer">
@@ -657,11 +491,11 @@ const breadcrumbTrail = [
           <div>
             <h4>{attraction.fullName}</h4>
             <p>
-              Guía independiente de visita del {attraction.fullName} ({attraction.shortName}) en
+              Guía independiente y sin ánimo de lucro de turismo y divulgación del {attraction.fullName} ({attraction.shortName}) en
               {attraction.city}, {attraction.region}, {attraction.country}.
             </p>
             <p style="margin-top:12px">
-              {attraction.streetAddress} · CP {attraction.postalCode} · {attraction.plusCode}
+              {attraction.streetAddress} · Referencia general de zona
             </p>
             <p style="margin-top:12px">
               Coordenadas: {attraction.latitude}, {attraction.longitude}
@@ -691,7 +525,7 @@ const breadcrumbTrail = [
           </div>
 
           <div>
-            <h4>Enlaces externos</h4>
+            <h4>Enlaces externos</h4><p><a href="#privacidad">Privacidad y condiciones</a></p>
             <ul>
               <li>
                 <a href={attraction.mapsShareUrl} target="_blank" rel="noopener noreferrer">
@@ -723,7 +557,7 @@ const breadcrumbTrail = [
             contenidos de Google Maps pertenecen a sus respectivos propietarios.
           </span>
           <span>
-            Opiniones sincronizadas desde Google Maps · {attraction.syncDate} ·
+            Referencia de opiniones de Google Maps · {attraction.syncDate} ·
             <a href={attraction.mapsShareUrl} target="_blank" rel="noopener noreferrer">{viewAllLabel} ↗</a>
           </span>
         </div>
@@ -753,6 +587,18 @@ const breadcrumbTrail = [
       })();
     </script>
 
+    <script is:inline>
+      (() => {
+        const menu = document.getElementById('section-menu');
+        if (!menu) return;
+        menu.addEventListener('click', (event) => {
+          if (event.target instanceof Element && event.target.closest('a[href^="#"]')) menu.open = false;
+        });
+        menu.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape') { menu.open = false; menu.querySelector('summary')?.focus(); }
+        });
+      })();
+    </script>
     <script is:inline>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', function () {

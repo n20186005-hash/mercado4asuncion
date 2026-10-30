@@ -1,7 +1,6 @@
 // Datos y lógica del módulo de clima.
-// La información se obtiene en el servidor (frontmatter de Astro) y se vuelve a
-// consultar desde el navegador al abrir la página, de modo que los valores
-// mostrados correspondan al momento de la visita.
+// Open-Meteo (CC BY 4.0), consulted in the browser for fixed place coordinates.
+// The static build does not publish a stale forecast as current conditions.
 
 export interface WeatherCurrent {
   temperature: number | null;
@@ -156,144 +155,16 @@ export function headline(current: WeatherCurrent | null, days: WeatherDay[]): st
  * visita, qué llevar y si hay algún aviso que amerite cambiar de plan.
  */
 export function buildAdvice(current: WeatherCurrent | null, days: WeatherDay[]): AdviceBundle {
-  const alerts: string[] = [];
-  const risks: string[] = [];
-  const outfit: string[] = [];
-  const plan: string[] = [];
-  const gear: string[] = [];
-
-  const today = days[0] ?? null;
-  const tMax = today?.tMax ?? current?.temperature ?? null;
-  const tMin = today?.tMin ?? null;
-  const pop = today?.precipitationProbability ?? 0;
-  const uv = today?.uvIndex ?? null;
-  const wind = current?.windSpeed ?? null;
-  const humidity = current?.humidity ?? null;
-  const apparent = current?.apparentTemperature ?? null;
-  const temp = current?.temperature ?? null;
-  const code = current?.weatherCode ?? today?.weatherCode ?? null;
-  const group = describeCode(code).group;
-
-  const wetGroup = group === 'lluvia' || group === 'tormenta';
-  const rainIsHeavy = (code !== null && HEAVY_CODES.has(code)) || (today?.precipitation ?? 0) >= 8;
-  const heavyRain = wetGroup && rainIsHeavy;
-  const lightRain = group === 'lluvia' && !rainIsHeavy;
-  const storm = group === 'tormenta';
-  const windy = wind !== null && wind >= 39;
-  const veryWindy = wind !== null && wind >= 50;
-  const hot = tMax !== null && tMax >= 32;
-  const range = tMax !== null && tMin !== null ? tMax - tMin : null;
-
-  /* ---- Avisos que pueden cambiar el plan ---- */
-  if (storm) {
-    alerts.push('Tormentas');
-    risks.push(
-      'Con rayos y truenos no te refugies bajo árboles ni estructuras metálicas: entrá a un local y esperá a que pase.'
-    );
-  }
-  if (heavyRain) {
-    alerts.push('Lluvia fuerte');
-    risks.push(
-      'Lluvia fuerte prevista: los accesos se inundan y el piso queda muy resbaladizo. Postergá la visita si podés.'
-    );
-  }
-  if (veryWindy) {
-    alerts.push('Viento fuerte');
-    risks.push(
-      'Viento muy fuerte: alejate de carteles, toldos y árboles, y cuidado con lo que se vuela de los puestos.'
-    );
-  }
-  if (tMax !== null && tMax >= 40) {
-    alerts.push('Calor extremo');
-    risks.push('Calor extremo: pasarse varias horas adentro del mercado con esta temperatura es un riesgo real.');
-  }
-  if (group === 'niebla') {
-    alerts.push('Niebla');
-    risks.push('Niebla y poca visibilidad: manejá con precaución y llegá con tiempo de sobra.');
-  }
-  if (tMax !== null && tMax <= 10) {
-    alerts.push('Frío intenso');
-    risks.push('Hace mucho frío para la ciudad: abrigate bien si vas a estar de pie mucho tiempo.');
-  }
-
-  /* ---- Qué ponerse ---- */
-  if (hot) {
-    outfit.push('Ropa ligera, suelta y de colores claros: hay poca sombra entre los puestos.');
-  } else if (tMax !== null && tMax <= 10) {
-    outfit.push('Abrigo de invierno: campera gruesa, gorro y guantes si salís temprano.');
-  }
-  if (range !== null && range > 8) {
-    outfit.push('La mañana y la noche son muy distintas: vestite en capas para poder sacarte algo.');
-  }
-  if (storm || heavyRain || pop >= 60 || lightRain) {
-    outfit.push('Calzado cerrado con suela que no patine: el piso de los pasillos se moja.');
-  }
-  if (windy) {
-    outfit.push('Evitá sombreros sueltos y ropa muy holgada: con este viento se vuelan.');
-  }
-  if (outfit.length === 0) {
-    outfit.push('Ropa cómoda para caminar: con la temperatura de hoy no hace falta nada especial.');
-  }
-
-  /* ---- Cómo organizar la visita ---- */
-  if (storm) {
-    plan.push('Conviene ir temprano y con un plan bajo techo: con tormenta el mercado se complica y cierran puestos.');
-  } else if (heavyRain) {
-    plan.push('Priorizá la mañana: la lluvia fuerte suele llegar por la tarde y los pasillos se vacían.');
-  } else if (pop >= 60) {
-    plan.push('Hay chances altas de lluvia: andá temprano y tené prevista una alternativa bajo techo.');
-  } else if (lightRain) {
-    plan.push('El mercado está techado en gran parte: se puede recorrer igual, con cuidado en el piso mojado.');
-  }
-  if (hot) {
-    plan.push('Evitá el tramo de 12:00 a 15:00: es el pico de calor y el mercado queda más vacío.');
-    if (humidity !== null && humidity >= 70) {
-      plan.push('Entre los puestos el calor se concentra: pará a la sombra y tomá agua seguido.');
-    }
-  }
-  if (apparent !== null && temp !== null && apparent - temp >= 3) {
-    plan.push('La sensación es más alta que lo que marca el termómetro: el calor se siente más adentro.');
-  }
-  if (uv !== null && uv >= 5) {
-    plan.push('El sol pega fuerte: aprovechá antes de las 10:00 o después de las 16:00.');
-  }
-  if (group === 'soleado') {
-    plan.push('Buen día para recorrer: la luz de la mañana entre los puestos es ideal para sacar fotos.');
-  } else if (group === 'nubes') {
-    plan.push('Luz pareja y sin sol directo: muy buen día para recorrer tranquilo y fotografiar.');
-  }
-  if (plan.length === 0) {
-    plan.push('Condiciones cómodas para recorrer a pie a cualquier hora de la mañana.');
-  }
-
-  /* ---- Qué llevar ---- */
-  if (storm || heavyRain || pop >= 60 || lightRain) {
-    gear.push(
-      windy
-        ? 'Piloto o campera impermeable: con este viento un paraguas no sirve'
-        : 'Paraguas plegable en la mochila'
-    );
-  }
-  if (uv !== null && uv >= 5) {
-    gear.push('Protector solar, anteojos de sol y gorra');
-  }
-  if (hot) {
-    gear.push('Botella de agua: vas a necesitar más de la que pensás');
-  }
-  if (humidity !== null && humidity >= 80 && tMax !== null && tMax >= 28) {
-    gear.push('Toallitas y una remera de repuesto: con esta humedad se transpira mucho');
-  }
-  if (range !== null && range > 8) {
-    gear.push('Una campera liviana para la vuelta');
-  }
-  if (tMax !== null && tMax <= 10) {
-    gear.push('Campera gruesa, bufanda y guantes');
-  }
-
-  return { alerts, risks, outfit, plan, gear };
+ const alerts: string[]=[];const risks: string[]=[];const outfit: string[]=[];const plan: string[]=[];const gear: string[]=[];
+ if (!current && !days.length) return {alerts,risks,outfit,plan,gear};
+ const code=current?.weatherCode ?? days[0]?.weatherCode;
+ if(code!=null&&code>=95){alerts.push('Posible tormenta');risks.push('Revisá avisos oficiales y reconsiderá el paseo al aire libre si hay tormenta.');}
+ if((days[0]?.precipitationProbability??0)>=50)gear.push('Protección para lluvia y calzado con agarre, según las condiciones reales.');
+ if((days[0]?.tMax??current?.temperature??0)>=30)gear.push('Agua para tu recorrido; no se han confirmado bebederos.');
+ plan.push('Confirmá el horario y acceso del vendedor; el pronóstico no garantiza apertura ni seguridad.');
+ return {alerts,risks,outfit,plan,gear};
 }
 
-/** Consejo breve para cada tarjeta del pronóstico de los próximos días. */
 export function dayTip(day: WeatherDay): string {
   const group = describeCode(day.weatherCode).group;
   const pop = day.precipitationProbability ?? 0;

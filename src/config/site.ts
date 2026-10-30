@@ -13,19 +13,19 @@ export const attraction = {
   region: 'Distrito Capital',
   country: 'Paraguay',
   countryCode: 'PY',
-  postalCode: '001223',
+  postalCode: '',
 
   // Dirección y geo
-  streetAddress: 'Av. Silvio Pettirossi y Mayor Fleitas, Barrio Pettirossi',
+  streetAddress: 'Pettirossi y República Francesa: referencia municipal del Paseo de los Yuyos; confirmar acceso',
   neighborhood: 'Barrio Pettirossi',
-  latitude: -25.299795,
-  longitude: -57.622196,
-  plusCode: 'P92H+44',
+  latitude: -25.299691,
+  longitude: -57.6221953,
+  plusCode: '',
 
   // Google Maps
   mapsShareUrl: 'https://maps.app.goo.gl/eFSL3TJK58oBRWbP6',
   mapsEmbedSrc:
-    'https://www.google.com/maps?q=Mercado+Municipal+N%C2%B0+4%2C+Asunci%C3%B3n%2C+Paraguay&z=16&output=embed&hl=es&region=PY',
+    'https://www.google.com/maps?q=-25.299691,-57.6221953&z=16&output=embed&hl=es&region=PY',
 
   // Referencias oficiales / autoridad
   govTourismUrl: 'https://www.senatur.gov.py/',
@@ -33,242 +33,156 @@ export const attraction = {
   juntaMunicipalUrl: 'https://jma.gov.py/',
 
   // Datos prácticos
-  phone: '+595 21 232 129',
-  hours: 'Todos los días, de 05:00 a 18:00 (horario de referencia)',
-  hoursShort: '05:00 – 18:00',
-  price: 'Entrada libre y gratuita',
-  bestTime: 'Mañanas, entre 08:00 y 11:00',
+  phone: 'No verificado; consultar administración municipal',
+  hours: 'Maps señalaba apertura a las 07:00 el 29/10/2026; no es horario semanal completo',
+  hoursShort: 'Confirmar por sector',
+  price: 'Confirmar condiciones de actividades y servicios',
+  bestTime: 'Según el puesto y el clima',
 
-  // Calificación y opiniones (sincronizadas desde Google Maps)
+  // Referencia de calificación de terceros consultada en Google Maps
   rating: 4.2,
   ratingDisplay: '4,2',
-  reviewCount: 15783,
-  reviewCountDisplay: '15.783',
-  syncDate: 'septiembre de 2026',
-  syncDateISO: '2026-09',
+  reviewCount: 15838,
+  reviewCountDisplay: '15.838',
+  syncDate: '29 de octubre de 2026',
+  syncDateISO: '2026-10-29',
   syncYear: '2026',
-  syncMonth: '9',
+  syncMonth: '10',
 } as const;
 
-// 4.3 — Clúster semántico de alrededores
 export const nearbyLandmarks = [
   {
-    name: 'Estadio General Pablo Rojas (La Nueva Olla)',
-    tag: '~1,4 km',
-    text: 'La cancha de Cerro Porteño, uno de los estadios más grandes del país, queda a pocos minutos hacia el oeste y convierte los días de partido en una experiencia aparte.',
+    "name": "Paseo de los Yuyos",
+    "tag": "Referencia municipal",
+    "text": "La campaña municipal de octubre de 2025 ubicó su punto de encuentro en República Francesa y Pettirossi, frente a la administración. Confirmá el acceso actual; no se anuncia aquí un tour vigente."
   },
   {
-    name: 'Museo Nacional de Bellas Artes de Asunción',
-    tag: '~1,1 km',
-    text: 'Casona histórica del centro con colección de arte paraguayo y exposiciones temporales; una parada natural para completar la visita al mercado.',
-  },
-  {
-    name: 'Panteón Nacional de los Héroes',
-    tag: '~2,3 km',
-    text: 'El monumento patriótico más importante del país, en el casco histórico, al que se llega en pocos minutos por el corredor de Pettirossi.',
-  },
-  {
-    name: 'Plaza de la Democracia',
-    tag: '~2,2 km',
-    text: 'El punto donde funcionaba el antiguo Mercado Guasú, origen del Mercado 4 antes de su traslado al barrio Pettirossi en 1942.',
-  },
+    "name": "Otros destinos de Asunción",
+    "tag": "Plan aparte",
+    "text": "Para combinar con museos, estadios o el centro histórico, comprobá por separado el recorrido, la entrada y la agenda. Esta guía no garantiza distancias a pie ni conexiones inmediatas."
+  }
 ];
-
 export const NEARBY_LANDMARK_1 = nearbyLandmarks[0].name;
 export const NEARBY_LANDMARK_2 = nearbyLandmarks[1].name;
-
-// Galería (imágenes locales con licencia)
 export const gallery = [
   {
-    src: '/images/mercado4-hero.jpg',
-    alt: 'Mercado Municipal N° 4 - Vista principal en Asunción, Paraguay',
-    caption: 'El frente del mercado sobre la avenida Pettirossi',
-  },
-  {
-    src: '/images/mercado4-stalls.jpg',
-    alt: 'Puestos del Mercado 4 con frutas y verduras en Asunción',
-    caption: 'Puestos de frutas, verduras y productos frescos',
-  },
-  {
-    src: '/images/mercado4-terere.jpg',
-    alt: 'Tereré y productos típicos paraguayos en el Mercado 4',
-    caption: 'Tereré, yerba y productos típicos del Paraguay',
-  },
-  {
-    src: '/images/mercado4-yuyos.jpg',
-    alt: 'Puesto de yuyos y plantas medicinales en el Mercado 4 de Asunción',
-    caption: 'Yuyos y plantas medicinales de la medicina tradicional',
-  },
+    "src": "/images/market-illustration.svg",
+    "alt": "Composición geométrica original de esta guía; no es fotografía ni plano del mercado",
+    "caption": "Ilustración original CC0 de esta guía; no representa puestos, personas ni instalaciones reales.",
+    "source": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "author": "Ilustración original de la guía",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+  }
 ];
-
-// Lo que se encuentra en el mercado
 export const sections = [
   {
-    icon: '🥬',
-    title: 'Frutas y verduras',
-    text: 'Uno de los mayores centros de abasto de Asunción: verdura de hoja, frutas de estación, mandioca, maíz y todo lo que llega cada madrugada desde el interior.',
+    "icon": "🥬",
+    "title": "Alimentos",
+    "text": "La Municipalidad incluye alimentos entre los rubros del mercado. Confirmá el producto, precio y puesto concreto antes de comprar; no se garantiza inventario ni frescura."
   },
   {
-    icon: '🍲',
-    title: 'Cocinerías y comida al paso',
-    text: 'Sopa paraguaya, chipa, empanadas, asado y cocina internacional en los comedores del fondo: se come bien y barato a cualquier hora de la mañana.',
+    "icon": "👕",
+    "title": "Textiles y calzados",
+    "text": "La nota municipal del 5 de mayo de 2026 destaca textiles y calzados en su actividad comercial. No es un directorio de tiendas ni acredita una marca o sucursal."
   },
   {
-    icon: '🌿',
-    title: 'Yuyos y medicina tradicional',
-    text: 'El rincón más conocido del mercado: hierbas medicinales, remedios naturales y los puestos de los yuyeros que sostienen una tradición guaraní viva.',
+    "icon": "📱",
+    "title": "Tecnología",
+    "text": "También figura en la descripción municipal. Consultá procedencia, garantía, comprobante y condiciones del vendedor antes de pagar."
   },
   {
-    icon: '👕',
-    title: 'Ropa, calzados y electrónica',
-    text: 'Pasillos de ropa, zapatillas, telas, artículos para el hogar y pequeños locales de electrónica que se fueron sumando con las décadas.',
-  },
+    "icon": "🌿",
+    "title": "Paseo de los Yuyos",
+    "text": "Es un punto de referencia cultural identificado por la Municipalidad. La presencia de hierbas en el mercado no implica eficacia terapéutica ni recomendación de esta guía."
+  }
 ];
-
-// Hitos históricos
-export const timeline = [
-  {
-    year: 'Antes de 1942',
-    title: 'El Mercado Guasú de la Plaza de la Democracia',
-    text: 'El abasto de la ciudad funcionaba en el predio donde hoy está la Plaza de la Democracia, en el centro de Asunción.',
-  },
-  {
-    year: '1942',
-    title: 'El traslado al barrio Pettirossi',
-    text: 'Bajo el gobierno del general Higinio Morínigo se expropian terrenos baldíos y el mercado se instala en su ubicación actual, en el barrio Pettirossi.',
-  },
-  {
-    year: 'Décadas siguientes',
-    title: 'Una expansión que se come tres barrios',
-    text: 'El mercado crece hasta ocupar áreas de los barrios San Roque, Ciudad Nueva y Pinozá, hasta convertirse en una pequeña ciudad dentro de la ciudad.',
-  },
-  {
-    year: '2012',
-    title: '«7 cajas» y la fama internacional',
-    text: 'La película paraguaya «7 cajas», filmada en las inmediaciones del mercado, proyecta el Mercado 4 en festivales de todo el mundo.',
-  },
-  {
-    year: 'Hoy',
-    title: 'El mercado más popular del país',
-    text: 'Miles de personas pasan cada día por sus pasillos. Es comercio, pero también gastronomía, tradición y un retrato vivo de la cultura paraguaya.',
-  },
-];
-
-// Preguntas frecuentes (coinciden con el FAQPage Schema)
 export const faqs = [
   {
-    q: '¿Dónde queda el Mercado Municipal N° 4?',
-    a: 'El Mercado Municipal N° 4 queda en Asunción, Distrito Capital, Paraguay, en el barrio Pettirossi, sobre la intersección de la Av. Silvio Pettirossi con Mayor Fleitas. Código postal 001223, código Plus P92H+44.',
+    "q": "¿Dónde queda el Mercado 4 y por dónde entrar?",
+    "a": "Está en Asunción, en el entorno de Pettirossi. La Municipalidad identificó República Francesa y Pettirossi, frente a la administración y el Paseo de los Yuyos, como punto de encuentro de un tour de 2025. Es una referencia para orientarse, no la única entrada ni una garantía de acceso hoy; confirmá el sector que buscás."
   },
   {
-    q: '¿Cuál es la diferencia entre Mercado 4 y Mercado Municipal N° 4?',
-    a: 'Son el mismo lugar. «Mercado Municipal N° 4» es el nombre oficial del recinto y «Mercado 4» —o «Mercado Cuatro»— es la forma popular con la que todos lo conocen en Asunción.',
+    "q": "¿Qué horario tiene el Mercado 4?",
+    "a": "Maps señalaba apertura a las 07:00 el 29 de octubre de 2026, sin confirmar aquí una tabla semanal completa. Cada sector y vendedor puede tener horarios distintos. Verificá con el puesto o la administración antes de salir."
   },
   {
-    q: '¿Se paga entrada para visitar el Mercado 4?',
-    a: 'No. El acceso al Mercado Municipal N° 4 es público, libre y gratuito todo el año. Solo se paga por lo que se compra en los puestos.',
+    "q": "¿El Mercado 4 abre los domingos?",
+    "a": "No se verificó un horario oficial dominical común para todo el mercado. No asumás que todos los locales abren: confirmá el vendedor, sector y fecha de tu visita."
   },
   {
-    q: '¿Cuál es el horario del Mercado 4?',
-    a: 'El movimiento empieza muy temprano, cerca de las 05:00, y se mantiene fuerte hasta media tarde, alrededor de las 18:00. Cada puesto maneja su propio horario, por lo que conviene confirmar si se busca algo específico.',
+    "q": "¿Se paga entrada?",
+    "a": "No se verificó una tarifa general de visita vigente. Compras, estacionamiento, actividades y servicios tienen condiciones propias. La gratuidad del tour municipal anunciado para el 1 de noviembre de 2025 correspondía a esa actividad concreta, no a un calendario actual."
   },
   {
-    q: '¿Cuál es la mejor hora para visitarlo?',
-    a: 'Por la mañana, entre las 08:00 y las 11:00, cuando llega la mercadería fresca y los pasillos están activos pero todavía no abarrotados. Es también el mejor momento para los puestos de yuyos y las cocinerías.',
+    "q": "¿Qué puedo comprar?",
+    "a": "La Municipalidad describe textiles, calzados, tecnología y alimentos. La oferta concreta cambia por vendedor; no garantizamos marcas, inventario, precios ni comercios específicos."
   },
   {
-    q: '¿Es un lugar seguro para turistas?',
-    a: 'Es un mercado popular muy concurrido, con mucho movimiento de gente. Como en cualquier mercado grande del mundo, conviene cuidar pertenencias, evitar objetos de valor a la vista y moverse por los pasillos principales.',
+    "q": "¿Aceptan tarjeta, transferencia o QR?",
+    "a": "La Municipalidad informó en mayo de 2026 una incorporación progresiva de transferencias y QR. No significa que todos los puestos acepten todos los medios: acordá importe, moneda y forma de pago con el vendedor."
   },
   {
-    q: '¿Qué se puede comprar en el Mercado 4?',
-    a: 'Frutas y verduras, carnes y pescados, yuyos medicinales, especias, ropa, calzados, artículos para el hogar, electrónica y comida típica paraguaya: chipa, sopa paraguaya, empanadas y asado.',
+    "q": "¿Abre de noche?",
+    "a": "La nota municipal del 21 de septiembre de 2026 describe Mercado 4 Suena y la continuidad de un ciclo cultural. La del 18 de octubre informa ampliación de actividad nocturna y trabajo en un cronograma. Ninguna publica aquí un horario semanal completo ni confirma domingos. Consultá la actividad y el vendedor antes de ir; las 21:00 de Battilana de Noche correspondían a fechas concretas de diciembre de 2025."
   },
   {
-    q: '¿Cómo llego al Mercado 4 en transporte público?',
-    a: 'Numerosas líneas de colectivo recorren la Av. Silvio Pettirossi y la zona del mercado; la parada Puerto Elsa queda a pocos minutos a pie. Es uno de los puntos mejor conectados de Asunción.',
+    "q": "¿Hay baños y un recorrido accesible garantizado?",
+    "a": "No se verificaron baños operativos, rampas, pavimento continuo ni anchos de paso para una ruta concreta. Consultá estos puntos y los lugares de descanso antes de ir; adaptá el recorrido a tu movilidad."
   },
   {
-    q: '¿Se puede pagar con tarjeta o hay que llevar efectivo?',
-    a: 'Muchos puestos pequeños trabajan solo con efectivo en guaraníes. Hay cajeros automáticos en los alrededores y algunos locales aceptan tarjeta, pero conviene llevar billetes pequeños.',
-  },
-  {
-    q: '¿De dónde salen la calificación y las opiniones que se muestran en esta página?',
-    a: 'La calificación y la cantidad de opiniones están sincronizadas desde las opiniones de usuarios de Google Maps, con fecha de sincronización septiembre de 2026. Los derechos sobre esos contenidos pertenecen a sus autores originales y a Google Maps.',
-  },
-  {
-    q: '¿Hay baños públicos en el Mercado 4?',
-    a: 'Sí. Hay sanitarios de pago dentro y en el perímetro del mercado, concentrados en los accesos y pasillos principales. Son instalaciones básicas: conviene llevar papel higiénico, toallitas y monedas en efectivo.',
-  },
-  {
-    q: '¿Dónde se puede estacionar cerca del Mercado 4?',
-    a: 'En el entorno funcionan playas de estacionamiento privadas y espacios en la vía pública administrados por cuidadores. No hay un estacionamiento oficial único ni gratuito garantizado; lo más práctico es llegar antes de las 09:00 y no dejar objetos a la vista dentro del vehículo.',
-  },
-  {
-    q: '¿Cómo llego al Mercado 4 desde el aeropuerto?',
-    a: 'El Aeropuerto Internacional Silvio Pettirossi queda a unos 15 km. En taxi o transporte por aplicación el trayecto directo toma entre 30 y 45 minutos según el tráfico; el transporte público es más barato pero exige combinaciones y no es recomendable con equipaje.',
-  },
-  {
-    q: '¿Es accesible el Mercado 4 para personas con movilidad reducida?',
-    a: 'Solo parcialmente. El piso es irregular, hay desniveles, pasillos muy estrechos y mucha circulación de gente y mercadería. La visita realista es recorrer el tramo del acceso principal sobre la Av. Silvio Pettirossi, en horario de menor afluencia y acompañado.',
-  },
-  {
-    q: '¿Conviene ir al Mercado 4 con niños?',
-    a: 'Sí, pero en la franja de la mañana y con recorrido corto. Los pasillos son estrechos para cochecitos, así que es mejor llevar a los niños en mochila portabebés o de la mano, con agua, gorra y un punto de encuentro acordado.',
-  },
-  {
-    q: '¿Se puede comer en el Mercado 4 sin riesgo?',
-    a: 'Hay cocinerías con mucha rotación donde se come bien y barato. Las precauciones habituales aplican: elegir puestos con cocción a la vista y clientes frecuentes, evitar preparaciones que lleven horas expuestas al calor y, si tenés restricciones alimentarias, consultar los ingredientes.',
-  },
-  {
-    q: '¿Qué clima me voy a encontrar y hace falta paraguas?',
-    a: 'Asunción tiene clima subtropical húmedo: veranos muy calurosos con tormentas vespertinas e inviernos templados y secos. Entre octubre y marzo llueve más, casi siempre por la tarde. El módulo de clima de esta página muestra la probabilidad de lluvia día por día para decidir si llevar paraguas.',
-  },
+    "q": "¿De dónde salen la calificación y las opiniones?",
+    "a": "La consulta de Google Maps del 29 de octubre de 2026 mostraba 4,2/5 de 15.838 opiniones de terceros. No son reseñas propias ni actualización automática. Se enlaza a Maps sin copiar opiniones individuales."
+  }
 ];
-
-// Aspectos destacados y recomendaciones (resumen de opiniones de visitantes)
 export const reviewHighlights = [
-  'Precios bajos y producto fresco recién llegado del interior',
-  'Los puestos de yuyos y la medicina tradicional guaraní',
-  'Comida típica paraguaya a precios de mercado',
-  'Un retrato auténtico del comercio popular de Asunción',
+  "Referencia fechada de Google Maps: 4,2/5 de 15.838 opiniones.",
+  "La guía no ha recopilado esas opiniones ni calculado una distribución de estrellas."
 ];
-
 export const reviewNotes = [
-  'Pasillos estrechos y muy concurridos en horas pico',
-  'Calor y poca sombra al mediodía: mejor ir temprano',
-  'Llevar efectivo en billetes pequeños para los puestos chicos',
-  'Cuidar pertenencias personales en los tramos más apretados',
+  "Confirmá sector, vendedor, entrada y horario concreto.",
+  "La calificación no garantiza seguridad, calidad ni disponibilidad de un servicio."
 ];
-
-// Fuentes / E-E-A-T
 export const sources = [
   {
-    title: 'Opiniones · Sincronización: septiembre de 2026',
-    meta: 'Google Maps',
-    desc: 'Calificación y cantidad de opiniones sincronizadas desde las opiniones de usuarios de Google Maps, con fecha de sincronización septiembre de 2026; los derechos de autor pertenecen a sus autores originales y a Google Maps.',
-    linkLabel: 'Ver todas las opiniones en Google Maps',
-    url: attraction.mapsShareUrl,
+    "title": "Ubicación y contexto del Paseo de los Yuyos",
+    "meta": "Municipalidad · 28/10/2025",
+    "desc": "Punto de encuentro municipal en Pettirossi y República Francesa. Se trata de un anuncio histórico, no de reserva o tour vigente.",
+    "linkLabel": "Leer la campaña Eju Mercadope",
+    "url": "https://www.asuncion.gov.py/mercados/gobierno-de-la-ciudad-impulsa-la-campana-eju-mercadope-para-revalorizar-el-mercado-municipal-no-4"
   },
   {
-    title: 'Ubicación, límites y código postal',
-    meta: 'Google Maps · Wikidata',
-    desc: 'Coordenadas, código Plus y código postal del barrio Pettirossi verificados sobre el registro del Mercado Municipal N° 4 y el mapa de la zona.',
-    linkLabel: 'Abrir la ubicación en Google Maps',
-    url: attraction.mapsShareUrl,
+    "title": "Identidad, rubros y pagos",
+    "meta": "Municipalidad · 05/05/2026",
+    "desc": "Aniversario del Mercado Municipal N°4, descripción de rubros e incorporación progresiva de pagos electrónicos; no acredita todos los vendedores.",
+    "linkLabel": "Leer la nota municipal de aniversario",
+    "url": "https://www.asuncion.gov.py/mercados/mercado-no-4/el-mercado-municipal-n-4-celebra-84-anos-como-principal-polo-comercial-minorista-del-pais"
   },
   {
-    title: 'Historia y reconocimiento institucional',
-    meta: 'Junta Municipal de Asunción',
-    desc: 'El traslado del mercado desde el Mercado Guasú hasta el barrio Pettirossi en 1942, su expansión hacia los barrios San Roque, Ciudad Nueva y Pinozá, y su aparición en la película paraguaya «7 cajas».',
-    linkLabel: 'Ver la publicación de la Junta Municipal de Asunción',
-    url: attraction.juntaMunicipalUrl,
+    "title": "Ciclo cultural nocturno",
+    "meta": "Municipalidad · 21/09/2026",
+    "desc": "Describe Mercado 4 Suena y la intención de continuar el ciclo musical. No establece un horario semanal completo ni dominical.",
+    "linkLabel": "Consultar la nota del ciclo cultural",
+    "url": "https://www.asuncion.gov.py/mercados/mercado-no-4/en-el-mercado-4-se-ofrecen-variados-espectaculos-artisticos-con-grupos-nacionales-para-atraer-al-publico-en-horario-nocturno"
   },
   {
-    title: 'Información turística oficial',
-    meta: 'SENATUR',
-    desc: 'La Secretaría Nacional de Turismo del Paraguay es el organismo oficial para consultar novedades, circuitos y recomendaciones vigentes para visitantes.',
-    linkLabel: 'Visitar el portal oficial de turismo del Paraguay',
-    url: attraction.govTourismUrl,
+    "title": "Ampliación de actividad nocturna",
+    "meta": "Municipalidad · 18/10/2026",
+    "desc": "Informa ampliación nocturna y trabajo en un cronograma de actividades. Confirmá el evento y sector; no publica una tabla semanal ni confirma domingos.",
+    "linkLabel": "Consultar el anuncio municipal de octubre",
+    "url": "https://www.asuncion.gov.py/mercados/mercados-municipales-amplian-su-actividad-con-propuestas-culturales-y-horarios-nocturnos"
   },
+  {
+    "title": "Horario extendido de una actividad concreta",
+    "meta": "Municipalidad · 09/12/2025",
+    "desc": "Battilana de Noche fue un anuncio para dos fechas de diciembre de 2025; no se toma como horario regular.",
+    "linkLabel": "Ver el alcance del anuncio histórico",
+    "url": "https://www.asuncion.gov.py/mercados/gobierno-de-la-ciudad-de-asuncion-impulsa-battilana-de-noche-para-ofrecer-horarios-extendidos-en-el-mercado-4-e-impulsar-ventas"
+  },
+  {
+    "title": "Referencia de Maps",
+    "meta": "Consulta · 29/10/2026",
+    "desc": "4,2/5 de 15.838 opiniones. La señal de apertura 07:00 no es un horario semanal completo ni una garantía de acceso.",
+    "linkLabel": "Ver la ficha y opiniones de terceros",
+    "url": "https://maps.app.goo.gl/eFSL3TJK58oBRWbP6"
+  }
 ];

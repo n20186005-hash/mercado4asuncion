@@ -44,7 +44,7 @@
     {
       "name": "Opiniones",
       "short_name": "Opiniones",
-      "description": "Ver la calificación sincronizada de Google Maps",
+      "description": "Ver la referencia fechada de Google Maps",
       "url": "/#opiniones",
       "icons": [{ "src": "/favicon.svg", "sizes": "any" }]
     }
