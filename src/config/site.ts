@@ -66,6 +66,26 @@ export const NEARBY_LANDMARK_1 = nearbyLandmarks[0].name;
 export const NEARBY_LANDMARK_2 = nearbyLandmarks[1].name;
 export const gallery = [
   {
+    "src": "/images/mercado4-hero.jpg",
+    "alt": "Fotografía histórica del entorno del Mercado 4 en Asunción",
+    "caption": "Fotografía recuperada de una versión anterior de esta guía."
+  },
+  {
+    "src": "/images/mercado4-stalls.jpg",
+    "alt": "Vista de un pasaje en el entorno del Mercado 4",
+    "caption": "Fotografía recuperada del archivo histórico del sitio."
+  },
+  {
+    "src": "/images/mercado4-terere.jpg",
+    "alt": "Escena del entorno comercial del Mercado 4",
+    "caption": "Fotografía recuperada del archivo histórico del sitio."
+  },
+  {
+    "src": "/images/mercado4-yuyos.jpg",
+    "alt": "Fotografía asociada al Paseo de los Yuyos del Mercado 4",
+    "caption": "Fotografía recuperada del archivo histórico del sitio."
+  },
+  {
     "src": "/images/market-illustration.svg",
     "alt": "Composición geométrica original de esta guía; no es fotografía ni plano del mercado",
     "caption": "Ilustración original CC0 de esta guía; no representa puestos, personas ni instalaciones reales.",
